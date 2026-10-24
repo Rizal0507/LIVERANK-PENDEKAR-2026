@@ -8,50 +8,54 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <style>
-:root{--blue:#4f7cff;--gold:#f5c451;--silver:#cfd6e4;--bronze:#d9915b;--up:#34d399;--down:#f87171;--ink:#f4f7ff;--mute:#9aa7c2;--glass:rgba(13,20,36,.68);--line:rgba(255,255,255,.1);--lw:34%}
+:root{--gold:#f5c451;--silver:#cfd6e4;--bronze:#d9915b;--up:#34d399;--down:#f87171;--ink:#f4f7ff;--mute:#9aa7c2;--glass:rgba(13,20,36,.7);--line:rgba(255,255,255,.1)}
 *{box-sizing:border-box;margin:0}
 html,body{height:100%}
-/* Foto latar opsional: taruh di img/bg.jpg. Jika tidak ada, gradasi dipakai. Lapisan gelap menjaga teks tetap terbaca. */
+/* Foto latar opsional: img/bg.jpg. Jika tidak ada, gradasi dipakai. Lapisan gelap menjaga teks terbaca. */
 body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);display:flex;flex-direction:column;
-background:linear-gradient(rgba(5,8,16,.74),rgba(5,8,16,.9)),url(img/bg.jpg) center/cover fixed,radial-gradient(900px 520px at 12% 0,rgba(79,124,255,.38),transparent),radial-gradient(800px 520px at 92% 100%,rgba(20,184,166,.22),transparent),#05070d}
-header{display:flex;align-items:center;gap:16px;padding:14px 24px}
+background:linear-gradient(rgba(5,8,16,.74),rgba(5,8,16,.9)),url(img/bg.jpg) center/cover fixed,radial-gradient(900px 520px at 12% 0,rgba(79,124,255,.38),transparent),radial-gradient(800px 520px at 92% 100%,rgba(224,72,154,.22),transparent),#05070d}
+header{display:flex;align-items:center;gap:16px;padding:12px 24px}
 .logo{height:clamp(40px,6vh,64px);width:auto}
-h1{font-size:clamp(26px,4.2vw,54px);font-weight:800;letter-spacing:-.03em;line-height:1}
-.sub{color:var(--mute);font-weight:600;margin-top:4px;font-size:clamp(12px,1.4vw,18px)}
+h1{font-size:clamp(26px,4vw,50px);font-weight:800;letter-spacing:-.03em;line-height:1}
+.sub{color:var(--mute);font-weight:600;margin-top:4px;font-size:clamp(12px,1.3vw,18px)}
 .meta{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:12px;color:var(--mute)}
-.pill{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:var(--glass);border-radius:999px;padding:6px 12px;backdrop-filter:blur(10px);color:var(--ink);font-weight:700}
+.pill{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:var(--glass);border-radius:999px;padding:6px 12px;color:var(--ink);font-weight:700}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--down)}
 .ok .dot{background:var(--up);animation:pulse 1.6s infinite}
-@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(52,211,153,0)}0%{box-shadow:0 0 0 0 rgba(52,211,153,.6)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.6)}100%{box-shadow:0 0 0 7px rgba(52,211,153,0)}}
 .mono{font-family:'JetBrains Mono',monospace}
 button{font:inherit;cursor:pointer}
-.fs{border:1px solid var(--line);background:var(--glass);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:12px}
 .tabs{display:none;gap:8px;padding:0 14px 10px}
 .tabs button{flex:1;padding:10px;border-radius:999px;border:1px solid var(--line);background:var(--glass);color:var(--mute);font-weight:700}
-.tabs button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
-main{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:0 24px 8px}
-.cat{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:14px 16px;backdrop-filter:blur(14px);display:flex;flex-direction:column;min-height:0}
-.chead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
-.chead h2{font-size:clamp(18px,2vw,26px);font-weight:800}
-.chead span{color:var(--mute);font-size:13px}
-.cols,.slot{display:grid;grid-template-columns:var(--lw) 1fr 1fr 1fr}
-.cols{color:var(--mute);font-size:12px;font-weight:700;padding-bottom:6px;text-align:center}
-.cols i{font-style:normal;text-align:left}
+.tabs button.on{background:#4f7cff;color:#fff;border-color:#4f7cff}
+main{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:0 24px 6px;overflow:hidden}
+.cat{--ac:#4f7cff;background:var(--glass);border:1px solid var(--line);border-top:3px solid var(--ac);border-radius:18px;padding:12px 16px 14px;backdrop-filter:blur(14px);display:flex;flex-direction:column;min-height:0}
+#cat-sma{--ac:#e0489a}
+.cat h2{font-size:clamp(18px,2vw,26px);font-weight:800;margin-bottom:8px}
 .board{position:relative}
-.slot{position:absolute;left:0;right:0;align-items:center;border-top:1px solid var(--line);font-weight:700}
-.slot .lb{padding-left:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.slot .ph{grid-column:2/5;text-align:center;color:var(--mute);opacity:.45}
-.s0 .lb{color:var(--gold)}.s1 .lb{color:var(--silver)}.s2 .lb{color:var(--bronze)}
-.chip{position:absolute;left:var(--lw);right:0;top:0;display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center;text-align:center;
-border-radius:10px;background:linear-gradient(90deg,rgba(79,124,255,.42),rgba(79,124,255,.16));font-weight:700;
-transition:transform .9s cubic-bezier(.65,0,.25,1),opacity .5s;opacity:0}
+.slot,.hd,.pp,.chip{position:absolute}
+.hd{display:flex;align-items:center;color:var(--mute);font-size:11px;font-weight:700;text-align:center}
+.hd span{flex:1}.hd i{font-style:normal;text-align:left;padding-left:4px}
+.slot{border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);font-weight:700}
+.slot.pod{border-radius:14px}
+.s0{border-color:var(--gold)}.s1{border-color:var(--silver)}.s2{border-color:var(--bronze)}
+.top{display:flex;align-items:center;justify-content:center;gap:8px;height:50%;padding:0 4px}
+.lbw{display:flex;align-items:center;gap:8px;height:100%;padding-left:6px;overflow:hidden}
+.lb{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.no,.medal{flex:none;width:1.7em;height:1.7em;border-radius:50%;display:grid;place-items:center;font-size:.8em;font-weight:800;background:rgba(255,255,255,.12)}
+.medal{width:1.9em;height:1.9em;color:#14181f;font-size:1em}
+.s0 .medal{background:linear-gradient(#ffe08a,#e0a82e)}.s1 .medal{background:linear-gradient(#f1f5fb,#aab4c6)}.s2 .medal{background:linear-gradient(#f0b283,#bd6f3a)}
+.pp,.chip{display:grid;grid-template-columns:1fr 1fr;align-items:center;text-align:center}
+.pp{opacity:.4;color:var(--mute)}
+.chip{left:0;top:0;border-radius:9px;font-weight:700;background:linear-gradient(90deg,color-mix(in srgb,var(--ac) 60%,#0a1020),color-mix(in srgb,var(--ac) 32%,#0a1020));
+transition:transform .9s cubic-bezier(.65,0,.25,1),width .9s,height .9s,opacity .5s;opacity:0}
 .chip.in{opacity:1}
-.chip.r0{box-shadow:inset 3px 0 var(--gold)}.chip.r1{box-shadow:inset 3px 0 var(--silver)}.chip.r2{box-shadow:inset 3px 0 var(--bronze)}
+.pp.pod span::before,.chip.pod span::before{content:attr(data-c);display:block;font:600 10px 'Plus Jakarta Sans';color:rgba(255,255,255,.7)}
 .chip.mine{outline:2px solid #5eead4;outline-offset:-2px}
 .chip.flash{animation:fl 1.5s}
 @keyframes fl{0%,60%{background:#f5c451;color:#111}}
-.ar{margin-left:5px;font-size:.8em}.up{color:var(--up)}.dn{color:var(--down)}
-footer{padding:8px 24px 12px;text-align:center;color:var(--mute);font-size:12px}
+.ar{margin-left:5px;font-size:.75em;font-style:normal}.up{color:var(--up)}.dn{color:var(--down)}
+footer{padding:6px 24px 10px;text-align:center;color:var(--mute);font-size:12px}
 footer b{color:var(--ink)}
 #promo{position:fixed;inset:0;z-index:50;background:rgba(5,8,16,.96);display:none;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:24px;text-align:center}
 #promo.on{display:flex}
@@ -59,11 +63,11 @@ footer b{color:var(--ink)}
 #promo img{height:clamp(70px,16vh,150px);width:auto;max-width:42vw;object-fit:contain}
 #promo button{position:absolute;top:16px;right:16px;border-radius:50%;width:38px;height:38px;border:1px solid var(--line);background:var(--glass);color:#fff}
 #bar{width:min(420px,70vw);height:4px;background:var(--line);border-radius:4px;overflow:hidden}
-#bar i{display:block;height:100%;background:var(--blue);width:100%;transform-origin:left}
+#bar i{display:block;height:100%;background:#4f7cff;transform-origin:left}
 @media (max-width:899px){
 header{flex-wrap:wrap;padding:12px 14px}.meta{flex-direction:row;flex-wrap:wrap;align-items:center;margin-left:0;width:100%;justify-content:space-between}
-.tabs{display:flex}main{grid-template-columns:1fr;padding:0 12px 8px;overflow:auto}
-.cat{display:none}.cat.on{display:flex}.fs{display:none}:root{--lw:38%}
+.tabs{display:flex}main{grid-template-columns:1fr;padding:0 12px 8px;overflow:auto;display:block}
+.cat{display:none}.cat.on{display:flex}
 }
 @media (prefers-reduced-motion:reduce){.chip{transition:none}.ok .dot{animation:none}}
 </style>
@@ -76,7 +80,6 @@ header{flex-wrap:wrap;padding:12px 14px}.meta{flex-direction:row;flex-wrap:wrap;
     <span class="pill" id="conn"><i class="dot"></i><span id="connTx">Menghubungkan</span></span>
     <span class="mono" id="clock"></span>
     <span id="upd">Belum ada data tayang</span>
-    <button class="fs" id="fs">Layar penuh</button>
   </div>
 </header>
 <div class="tabs" id="tabs"></div>
@@ -91,75 +94,111 @@ header{flex-wrap:wrap;padding:12px 14px}.meta{flex-direction:row;flex-wrap:wrap;
 <script>
 /* ====== PENGATURAN ====== */
 const CFG={
-  API:'https://script.google.com/macros/s/AKfycbzTSP4qFth4q0Ufjbag-uq_WFh2-jHvQ0RY9w4e8oemtdwlw_PPL99z3FZ7Aec1-C4h/exec',   // URL deploy Apps Script (berakhiran /exec)
+  API:'GANTI_DENGAN_URL_WEB_APP_APPS_SCRIPT',   // URL deploy Apps Script (berakhiran /exec)
   POLL:5000,
   PROMO_EVERY:15*60*1000, PROMO_SHOW:12000,
   SPONSORS:['logo/rekap-andalan.png','logo/sponsor-1.png','logo/sponsor-2.png','logo/sponsor-3.png'],
   CATS:[{k:'smp',t:'SMP/MTs'},{k:'sma',t:'SMA/SMK/MA'}]
 };
-/* ====== STATE ====== */
-const $=id=>document.getElementById(id), B={};
-let first=true, mine=new Set(JSON.parse(localStorage.getItem('lr_mine')||'[]')), tab=localStorage.getItem('lr_tab')||CFG.CATS[0].k, last=null;
-const main=$('main');
+const GAP=10,CG=16,HH=20;
+const $=id=>document.getElementById(id),B={},main=$('main');
+let first=true,last=null,mine=new Set(JSON.parse(localStorage.getItem('lr_mine')||'[]')),tab=localStorage.getItem('lr_tab')||CFG.CATS[0].k;
 CFG.CATS.forEach(c=>{
   const s=document.createElement('section');s.className='cat';s.id='cat-'+c.k;
-  s.innerHTML=`<div class="chead"><h2>${c.t}</h2><span id="cnt-${c.k}"></span></div>
-  <div class="cols"><i>Peringkat</i><span>No. tampil</span><span>Nilai</span><span>PBB</span></div><div class="board" id="bd-${c.k}"></div>`;
+  s.innerHTML=`<h2>${c.t}</h2><div class="board" id="bd-${c.k}"><div class="sl"></div><div class="hdr"></div></div>`;
   main.appendChild(s);
-  B[c.k]={labels:'',chips:{},pos:{},val:{},arrow:{},top:undefined,rh:40,n:0};
+  B[c.k]={labels:[],n:0,chips:{},pos:{},val:{},arrow:{},top:undefined,rects:[]};
   const t=document.createElement('button');t.textContent=c.t;t.dataset.k=c.k;t.onclick=()=>setTab(c.k);$('tabs').appendChild(t);
 });
 function setTab(k){tab=k;localStorage.setItem('lr_tab',k);
   document.querySelectorAll('.cat').forEach(e=>e.classList.toggle('on',e.id==='cat-'+k));
-  document.querySelectorAll('#tabs button').forEach(e=>e.classList.toggle('on',e.dataset.k===k));fit()}
-/* ====== UKURAN BARIS ====== */
-function fit(){
-  CFG.CATS.forEach(c=>{const b=B[c.k],bd=$('bd-'+c.k);if(!b.n)return;
-    let rh=48;
-    if(innerWidth>=900){const avail=main.getBoundingClientRect().bottom-bd.getBoundingClientRect().top-18;rh=Math.max(22,Math.min(58,Math.floor(avail/b.n)))}
-    b.rh=rh;bd.style.height=b.n*rh+'px';bd.style.fontSize=Math.max(11,rh*.42)+'px';
-    bd.querySelectorAll('.slot').forEach((s,i)=>{s.style.height=rh+'px';s.style.top=i*rh+'px'});
-    for(const key in b.chips){const el=b.chips[key];el.style.height=rh+'px';el.style.transform=`translateY(${b.pos[key]*rh}px)`}
+  document.querySelectorAll('#tabs button').forEach(e=>e.classList.toggle('on',e.dataset.k===k));layout()}
+
+/* ====== TATA LETAK: podium 3 teratas + tabel dua kolom, tanpa scroll di desktop ====== */
+function place(el,r){
+  let x,y,w,h;
+  if(r.pod){x=r.x+6;y=r.y+r.h*.5;w=r.w-12;h=r.h*.5-6;el.style.fontSize=Math.max(13,Math.min(24,r.h*.2))+'px'}
+  else{x=r.x+r.w*r.lw;y=r.y;w=r.w*(1-r.lw);h=r.h;el.style.fontSize=r.fs+'px'}
+  el.classList.toggle('pod',!!r.pod);
+  el.style.width=w+'px';el.style.height=h+'px';el.style.transform=`translate(${x}px,${y}px)`;
+}
+function layout(){
+  const mobile=innerWidth<900;
+  CFG.CATS.forEach(c=>{
+    const b=B[c.k],bd=$('bd-'+c.k);if(!b.n)return;
+    const n=b.n,rest=Math.max(0,n-3),per=mobile?rest:Math.ceil(rest/2);
+    const w=bd.clientWidth||(main.clientWidth-(mobile?24:48)-32);
+    let ph,rh;
+    if(mobile){ph=100;rh=44}
+    else{const av=main.getBoundingClientRect().bottom-bd.getBoundingClientRect().top-16;
+      ph=Math.max(76,Math.min(124,av*.15));rh=Math.max(20,Math.min(50,Math.floor((av-ph-GAP-HH)/Math.max(per,1))))}
+    const lw=mobile?.46:.4,colw=mobile?w:(w-CG)/2,pw=(w-2*GAP)/3,y0=ph+GAP+HH,fs=Math.max(11,Math.min(19,rh*.44));
+    b.rects=[];
+    for(let i=0;i<n;i++){
+      if(i<3)b.rects.push({pod:1,x:i*(pw+GAP),y:0,w:pw,h:ph});
+      else{const j=i-3,col=mobile?0:Math.floor(j/per),row=j-col*per;
+        b.rects.push({x:col*(colw+CG),y:y0+row*rh,w:colw,h:rh,lw,fs})}
+    }
+    bd.style.height=(y0+per*rh)+'px';
+    // slot statis (label peringkat + placeholder nilai 0)
+    bd.querySelector('.sl').innerHTML=b.rects.map((r,i)=>{
+      const st=`left:${r.x}px;top:${r.y}px;width:${r.w}px;height:${r.h}px`,L=b.labels[i];
+      if(r.pod)return `<div class="slot pod s${i}" style="${st};font-size:${Math.max(12,Math.min(20,r.h*.17))}px"><div class="top"><span class="medal">${i+1}</span><span class="lb">${L}</span></div>
+        <div class="pp pod" style="left:6px;right:6px;bottom:6px;height:${r.h*.5-6}px;font-size:${Math.max(13,Math.min(24,r.h*.2))}px"><span data-c="No. tampil">–</span><span data-c="Nilai">0</span></div></div>`;
+      return `<div class="slot" style="${st};font-size:${fs}px"><div class="lbw" style="width:${lw*100}%"><span class="no">${i+1}</span><span class="lb">${L}</span></div>
+        <div class="pp" style="left:${lw*100}%;right:0;top:0;height:100%"><span>–</span><span>0</span></div></div>`}).join('');
+    // judul kolom tabel
+    const cols=rest?(mobile?1:(per<rest?2:1)):0;let h='';
+    for(let k=0;k<cols;k++){const x=k*(colw+CG);
+      h+=`<div class="hd" style="left:${x}px;top:${ph+GAP}px;width:${colw}px;height:${HH}px"><i style="width:${lw*100}%">Peringkat</i><span>No. tampil</span><span>Nilai</span></div>`}
+    bd.querySelector('.hdr').innerHTML=h;
+    for(const key in b.chips)place(b.chips[key],b.rects[b.pos[key]]);
   });
 }
-addEventListener('resize',fit);
+addEventListener('resize',layout);addEventListener('load',layout);
+
 /* ====== RENDER ====== */
 function render(snap){
   CFG.CATS.forEach(c=>{
-    const d=snap[c.k]||{labels:[],items:[]},b=B[c.k],bd=$('bd-'+c.k),sig=d.labels.join('|');
-    if(sig!==b.labels){b.labels=sig;b.n=d.labels.length;
-      bd.innerHTML=d.labels.map((l,i)=>`<div class="slot s${i<3?i:'x'}"><span class="lb">${l}</span><span class="ph">–</span></div>`).join('');
-      b.chips={};b.pos={}}
-    const seen=new Set();
+    const d=snap[c.k]||{labels:[],items:[]},b=B[c.k],bd=$('bd-'+c.k);
+    if(d.labels.join('|')!==b.labels.join('|')){
+      for(const k in b.chips)b.chips[k].remove();
+      b.labels=d.labels;b.n=d.labels.length;b.chips={};b.pos={};b.val={};layout()}
+    const prevCount=Object.keys(b.chips).length,seen=new Set();
     d.items.forEach((it,i)=>{
-      const key=it.tampil;seen.add(String(key));
-      let el=b.chips[key],isNew=!el;
-      if(isNew){el=b.chips[key]=document.createElement('div');el.className='chip';
-        el.innerHTML='<span class="t"></span><span class="v"></span><span class="p"></span>';
+      const key=String(it.tampil);seen.add(key);
+      let el=b.chips[key];const isNew=!el,r=b.rects[i];
+      if(isNew){
+        el=b.chips[key]=document.createElement('div');
+        el.innerHTML='<span class="t mono" data-c="No. tampil"></span><span class="v mono" data-c="Nilai"></span>';
         el.onclick=()=>{const m=c.k+':'+key;mine.has(m)?mine.delete(m):mine.add(m);localStorage.setItem('lr_mine',JSON.stringify([...mine]));render(last)};
-        el.style.height=b.rh+'px';el.style.transform=`translateY(${i*b.rh}px)`;bd.appendChild(el);
-        requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('in')))}
-      const prev=b.pos[key];
-      if(prev!==undefined&&prev!==i)b.arrow[key]={d:i<prev?'up':'dn',until:Date.now()+3e5};
-      b.pos[key]=i;el.style.transform=`translateY(${i*b.rh}px)`;
-      el.className='chip in r'+(i<3?i:'x')+(mine.has(c.k+':'+key)?' mine':'');
-      const a=b.arrow[key],ar=a&&a.until>Date.now()?`<i class="ar ${a.d}">${a.d==='up'?'▲':'▼'}</i>`:'';
-      el.querySelector('.t').textContent=(mine.has(c.k+':'+key)?'★ ':'')+key;
-      el.querySelector('.v').innerHTML=it.total+ar;
-      el.querySelector('.p').textContent=it.pbb?it.pbb:'-';
-      el.querySelector('.t').className='t mono';el.querySelector('.v').className='v mono';el.querySelector('.p').className='p mono';
+        el.className='chip';el.style.transition='none';
+        // peserta baru muncul dari slot kosong pertama, lalu bergeser naik ke posisinya
+        place(el,b.rects[first?i:Math.min(prevCount,b.n-1)]);
+        bd.appendChild(el);void el.offsetWidth;el.style.transition='';
+        if(!first&&i<prevCount)b.arrow[key]={d:'up',until:Date.now()+3e5};
+      }else{
+        const p=b.pos[key];
+        if(p!==undefined&&p!==i)b.arrow[key]={d:i<p?'up':'dn',until:Date.now()+3e5};
+      }
+      b.pos[key]=i;
+      const mk=mine.has(c.k+':'+key),a=b.arrow[key];
+      el.classList.toggle('mine',mk);el.classList.toggle('r'+i,i<3);
+      el.querySelector('.t').textContent=(mk?'★ ':'')+key;
+      el.querySelector('.v').innerHTML=it.total+(a&&a.until>Date.now()?`<i class="ar ${a.d}">${a.d==='up'?'▲':'▼'}</i>`:'');
       if(!isNew&&b.val[key]!==undefined&&b.val[key]!==it.total){el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash')}
       b.val[key]=it.total;
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{place(el,r);el.classList.add('in')}));
     });
-    for(const key in b.chips)if(!seen.has(String(key))){const el=b.chips[key];el.remove();delete b.chips[key];delete b.pos[key];delete b.val[key]}
+    for(const key in b.chips)if(!seen.has(key)){b.chips[key].remove();delete b.chips[key];delete b.pos[key];delete b.val[key]}
     const top=d.items[0]?d.items[0].tampil:null;
     if(!first&&b.top!==undefined&&top!==null&&top!==b.top&&window.confetti)confetti({particleCount:140,spread:80,origin:{y:.35}});
     b.top=top;
-    $('cnt-'+c.k).textContent=`${d.items.length}/${b.n} sudah tayang`;
   });
   $('upd').textContent=snap.updatedAt?'Update terakhir '+new Date(snap.updatedAt).toLocaleTimeString('id-ID'):'Belum ada data tayang';
-  fit();first=false;
+  first=false;
 }
+
 /* ====== AMBIL DATA ====== */
 function setConn(ok){$('conn').classList.toggle('ok',ok);$('connTx').textContent=ok?'Terhubung':'Terputus, mencoba lagi'}
 async function pull(){
@@ -169,18 +208,17 @@ async function pull(){
     localStorage.setItem('lr_snap',JSON.stringify(s));last=s;setConn(true);render(s);
   }catch(e){setConn(false)}
 }
+setTab(tab);
 try{const c=localStorage.getItem('lr_snap');if(c){last=JSON.parse(c);render(last)}}catch(e){}
-setTab(tab);pull();
+pull();
 setInterval(()=>{if(!document.hidden)pull()},CFG.POLL);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull()});
-/* ====== JAM, LAYAR PENUH ====== */
 setInterval(()=>{$('clock').textContent=new Date().toLocaleTimeString('id-ID')},1000);
-$('fs').onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
 /* ====== OVERLAY SPONSOR ====== */
 $('plogos').innerHTML=CFG.SPONSORS.map(s=>`<img src="${s}" alt="" onerror="this.remove()">`).join('');
 let pt;
-function showPromo(){$('promo').classList.add('on');const i=document.querySelector('#bar i');
-  i.animate([{transform:'scaleX(1)'},{transform:'scaleX(0)'}],{duration:CFG.PROMO_SHOW,fill:'forwards'});
+function showPromo(){$('promo').classList.add('on');
+  document.querySelector('#bar i').animate([{transform:'scaleX(1)'},{transform:'scaleX(0)'}],{duration:CFG.PROMO_SHOW,fill:'forwards'});
   clearTimeout(pt);pt=setTimeout(hidePromo,CFG.PROMO_SHOW)}
 function hidePromo(){$('promo').classList.remove('on');clearTimeout(pt)}
 setInterval(showPromo,CFG.PROMO_EVERY);

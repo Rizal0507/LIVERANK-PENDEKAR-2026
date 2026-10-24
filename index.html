@@ -51,7 +51,7 @@
       position: relative;
     }
 
-    /* Pastikan Rank Text Utuh Tanpa Terpotong */
+    /* Pastikan Rank Text Utuh Tanpa Terpotong (Anti-Ellipsis) */
     .rank-text {
       white-space: nowrap;
       overflow: visible;
@@ -69,7 +69,7 @@
     .top2-glow { border: 1px solid rgba(148, 163, 184, 0.3); }
     .top3-glow { border: 1px solid rgba(217, 119, 6, 0.3); }
 
-    /* Kotak Nomor Tampil (Sudut membulat, garis tipis, bg transparan) */
+    /* Kotak Nomor Tampil */
     .no-box {
       border: 1px solid rgba(96, 165, 250, 0.35);
       border-radius: 6px;
@@ -77,8 +77,9 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 1px 6px;
+      padding: 0 6px;
       min-width: 26px;
+      height: 20px; /* Kunci tinggi kotak agar proporsional */
     }
 
     /* Gradasi Teks */
@@ -136,32 +137,31 @@
     <div class="flex flex-col h-full bg-brand-800/30 rounded-2xl border border-white/5 p-2.5 shadow-xl">
       <h2 class="text-center text-base lg:text-lg font-black text-white tracking-[0.1em] uppercase mb-2 shrink-0">SMP / MTs</h2>
       
-      <!-- PODIUM TOP 3 SMP (Tanpa Header Tabel di Atasnya) -->
+      <!-- PODIUM TOP 3 SMP -->
       <div id="podium-smp" class="grid grid-cols-3 gap-2 mb-2 shrink-0"></div>
       
-      <!-- LIST SISA SMP (Kiri 7, Kanan 6) -->
+      <!-- LIST SISA SMP -->
       <div class="flex-1 flex min-h-0 gap-2.5 pt-1 border-t border-white/5">
          
          <!-- KOLOM KIRI (7 Baris) -->
          <div class="flex-1 flex flex-col min-h-0">
-            <!-- Header Tabel Spesifik untuk Kolom Kiri -->
             <div class="flex items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1.5 shrink-0 bg-white/5 rounded py-1">
                <div class="w-[95px] shrink-0">RANK</div>
                <div class="flex-1 text-center pr-3">NO. TAMPIL</div>
                <div class="w-[35px] shrink-0 text-right">TOTAL</div>
             </div>
-            <div id="list-smp-col1" class="flex-1 no-scroll flex flex-col gap-1 relative"></div>
+            <!-- Gunakan flex-col biasa dengan gap, HAPUS justify-between & flex-1 di children -->
+            <div id="list-smp-col1" class="w-full flex flex-col gap-[3px] relative"></div>
          </div>
 
          <!-- KOLOM KANAN (6 Baris) -->
          <div class="flex-1 flex flex-col min-h-0">
-            <!-- Header Tabel Spesifik untuk Kolom Kanan -->
             <div class="flex items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1.5 shrink-0 bg-white/5 rounded py-1">
                <div class="w-[95px] shrink-0">RANK</div>
                <div class="flex-1 text-center pr-3">NO. TAMPIL</div>
                <div class="w-[35px] shrink-0 text-right">TOTAL</div>
             </div>
-            <div id="list-smp-col2" class="flex-1 no-scroll flex flex-col gap-1 relative"></div>
+            <div id="list-smp-col2" class="w-full flex flex-col gap-[3px] relative"></div>
          </div>
 
       </div>
@@ -171,32 +171,31 @@
     <div class="flex flex-col h-full bg-brand-800/30 rounded-2xl border border-white/5 p-2.5 shadow-xl">
       <h2 class="text-center text-base lg:text-lg font-black text-white tracking-[0.1em] uppercase mb-2 shrink-0">SMA / SMK / MA</h2>
       
-      <!-- PODIUM TOP 3 SMA (Tanpa Header Tabel di Atasnya) -->
+      <!-- PODIUM TOP 3 SMA -->
       <div id="podium-sma" class="grid grid-cols-3 gap-2 mb-2 shrink-0"></div>
       
-      <!-- LIST SISA SMA (Kiri 15, Kanan 15) -->
+      <!-- LIST SISA SMA -->
       <div class="flex-1 flex min-h-0 gap-2.5 pt-1 border-t border-white/5">
          
          <!-- KOLOM KIRI (15 Baris) -->
          <div class="flex-1 flex flex-col min-h-0">
-            <!-- Header Tabel Spesifik untuk Kolom Kiri -->
             <div class="flex items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 bg-white/5 rounded py-0.5">
                <div class="w-[95px] shrink-0">RANK</div>
                <div class="flex-1 text-center pr-3">NO. TAMPIL</div>
                <div class="w-[35px] shrink-0 text-right">TOTAL</div>
             </div>
-            <div id="list-sma-col1" class="flex-1 no-scroll flex flex-col justify-between relative gap-[2px]"></div>
+            <!-- HAPUS justify-between, gunakan gap konstan agar card tidak meregang besar -->
+            <div id="list-sma-col1" class="w-full flex flex-col gap-[3px] relative"></div>
          </div>
 
          <!-- KOLOM KANAN (15 Baris) -->
          <div class="flex-1 flex flex-col min-h-0">
-            <!-- Header Tabel Spesifik untuk Kolom Kanan -->
             <div class="flex items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 bg-white/5 rounded py-0.5">
                <div class="w-[95px] shrink-0">RANK</div>
                <div class="flex-1 text-center pr-3">NO. TAMPIL</div>
                <div class="w-[35px] shrink-0 text-right">TOTAL</div>
             </div>
-            <div id="list-sma-col2" class="flex-1 no-scroll flex flex-col justify-between relative gap-[2px]"></div>
+            <div id="list-sma-col2" class="w-full flex flex-col gap-[3px] relative"></div>
          </div>
 
       </div>
@@ -211,7 +210,6 @@
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzTSP4qFth4q0Ufjbag-uq_WFh2-jHvQ0RY9w4e8oemtdwlw_PPL99z3FZ7Aec1-C4h/exec";
 
-    // SPONSOR
     const sponsorData = [
       { logo: "https://lh3.googleusercontent.com/d/185LBG7napo7sSUDR29NBOi179fN1dbep=s1000", nama: "TJOBRUT STORE", deskripsi: "Pusat Atribut Paskibra Terlengkap dan Termurah" },
       { logo: "https://lh3.googleusercontent.com/d/1S8ycvcUE99tn-w7TKXPJ5lRlbWowuwIb=s1000", nama: "COSMO ATRIBUT", deskripsi: "" }
@@ -245,16 +243,12 @@
     }
     setInterval(showPromo, 15 * 60 * 1000);
 
-    // ==========================================
-    // LOGIKA PERHITUNGAN RANK & RENDERING
-    // ==========================================
     let liveData = { smp: [], sma: [] };
     let previousFullSignature = { smp: "", sma: "" };
     let teamRankTracker = { smp: {}, sma: {} };
     const tabLimits = { smp: 16, sma: 33 };
     let lastDataSyncTime = 0; let isUpdating = false;
 
-    // Indikator Netral, Naik, Turun
     function getIndicatorData(cat, item, currentIndex) {
       if (!item || !item.totalNilai || item.totalNilai <= 0) return `<span class="text-slate-500 font-bold text-[10px]">—</span>`;
       
@@ -275,19 +269,18 @@
       return `<span class="text-slate-500 font-bold text-[10px]">—</span>`;
     }
 
-    // Builder Card (Podium & List)
+    // Builder Card 
     function buildCard(item, cat, actualIndex, isPodium = false) {
       const data = item || { rank: actualIndex+1, totalNilai: '0', noUrut: '-' };
       const indicatorHtml = getIndicatorData(cat, data, actualIndex);
       
-      // Nomor 2 Digit
       let displayNo = data.noUrut;
       if (!isNaN(displayNo) && displayNo !== '-' && displayNo > 0 && displayNo < 10) { displayNo = '0' + displayNo; }
       
       const rankStr = data.rank || (actualIndex + 1);
 
       if (isPodium) {
-        let glowClass = 'podium-card px-2 py-1.5 h-[48px] flex flex-col justify-between list-item w-full';
+        let glowClass = 'podium-card px-2 py-1.5 h-[48px] flex flex-col justify-between list-item w-full shrink-0';
         if(actualIndex === 0) glowClass += ' top1-glow';
         if(actualIndex === 1) glowClass += ' top2-glow';
         if(actualIndex === 2) glowClass += ' top3-glow';
@@ -298,7 +291,7 @@
             <div class="flex justify-between items-center w-full px-1">
                <span class="text-[10px] font-bold text-white rank-text uppercase">${trophy} ${rankStr}</span>
             </div>
-            <div class="flex justify-between items-center w-full px-1">
+            <div class="flex justify-between items-center w-full px-1 mt-0.5">
                <div class="no-box">
                   <span class="text-[11px] font-bold text-white leading-none">${displayNo}</span>
                </div>
@@ -311,13 +304,12 @@
         `;
       }
 
-      // Card Biasa (List Kolom)
-      // Lebar kolom Rank dipastikan cukup besar w-[95px] agar tidak menimpa kotak nomor
+      // Card List Biasa - Tinggi dikunci h-[30px] agar tidak meregang
       return `
-        <div class="rank-card px-2 py-1 flex items-center w-full justify-between gap-1 list-item flex-1" data-id="${data.noUrut || actualIndex}">
-          <!-- RANK UTUH -->
-          <div class="w-[95px] shrink-0">
-            <span class="text-[9px] font-bold text-white uppercase rank-text block leading-none">${rankStr}</span>
+        <div class="rank-card px-2 flex items-center w-full h-[30px] justify-between list-item shrink-0" data-id="${data.noUrut || actualIndex}">
+          <!-- KIRI: RANK UTUH (w-[95px]) -->
+          <div class="w-[95px] shrink-0 flex items-center">
+            <span class="text-[9px] font-bold text-white uppercase rank-text leading-none">${rankStr}</span>
           </div>
           
           <!-- TENGAH: NO TAMPIL & INDIKATOR -->
@@ -331,7 +323,7 @@
           </div>
           
           <!-- KANAN: TOTAL NILAI -->
-          <div class="w-[35px] shrink-0 text-right pr-0.5">
+          <div class="w-[35px] shrink-0 flex items-center justify-end pr-0.5">
             <span class="text-[11px] font-black text-[#60a5fa] leading-none">${data.totalNilai || '0'}</span>
           </div>
         </div>
@@ -366,14 +358,12 @@
       if (items.length === 0) return;
 
       const top3 = items.slice(0, 3);
-      const remainingItems = items.slice(3); // 13 Peserta
+      const remainingItems = items.slice(3);
 
-      // Podium Top 3 
       let podiumHtml = '';
       for(let i=0; i<3; i++) podiumHtml += buildCard(top3[i], 'smp', i, true);
       document.getElementById('podium-smp').innerHTML = podiumHtml;
 
-      // 13 Sisa dibagi: Kiri (7), Kanan (6)
       const col1Items = remainingItems.slice(0, 7);
       const col2Items = remainingItems.slice(7, 13);
 
@@ -389,14 +379,12 @@
       if (items.length === 0) return;
 
       const top3 = items.slice(0, 3);
-      const remainingItems = items.slice(3); // 30 Peserta
+      const remainingItems = items.slice(3);
 
-      // Podium Top 3
       let podiumHtml = '';
       for(let i=0; i<3; i++) podiumHtml += buildCard(top3[i], 'sma', i, true);
       document.getElementById('podium-sma').innerHTML = podiumHtml;
 
-      // 30 Sisa dibagi: Kiri (15), Kanan (15)
       const col1Items = remainingItems.slice(0, 15);
       const col2Items = remainingItems.slice(15, 30);
 

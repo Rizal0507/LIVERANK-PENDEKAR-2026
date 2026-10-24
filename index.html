@@ -32,6 +32,7 @@
       padding: 0;
     }
 
+    /* --- KEDIP LAYAR HALUS --- */
     .flash-overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0);
@@ -44,18 +45,29 @@
       100% { box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0); }
     }
 
+    /* --- ANIMASI & HOVER --- */
     .anim-item { 
-      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); 
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
       position: relative;
     }
+    
+    /* Efek Hover (Sorotan) - Sesuai Permintaan #6 */
+    .hover-sorot:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.02) translateX(4px);
+      z-index: 10;
+      border-color: rgba(96, 165, 250, 0.5);
+      box-shadow: 0 4px 20px rgba(96, 165, 250, 0.2);
+    }
 
+    /* Anti Terpotong */
     .rank-text {
       white-space: nowrap;
       overflow: visible;
       letter-spacing: 0.02em;
     }
 
-    /* Ukuran card diperbesar untuk mengisi gap bawah */
+    /* Desain Card */
     .rank-card {
       background: rgba(15, 20, 35, 0.6);
       border: 1px solid rgba(255, 255, 255, 0.05);
@@ -66,6 +78,7 @@
     .top2-glow { border: 1px solid rgba(148, 163, 184, 0.3); }
     .top3-glow { border: 1px solid rgba(217, 119, 6, 0.3); }
 
+    /* Kotak Nomor Tampil Standar */
     .no-box {
       border: 1px solid rgba(96, 165, 250, 0.35);
       border-radius: 4px;
@@ -73,151 +86,181 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer; /* Menandakan bisa diklik */
-      transition: all 0.3s ease;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    .no-box:hover {
-      background: rgba(96, 165, 250, 0.2);
-    }
-    .no-box.followed {
-      background: rgba(250, 204, 21, 0.2);
-      border-color: rgba(250, 204, 21, 0.6);
-      color: #facc15;
-    }
+    .no-box:hover { background: rgba(96, 165, 250, 0.3); transform: scale(1.1); }
 
+    /* Kotak Nomor Favorit (Bintang) */
+    .fav-box {
+      border: 1px solid rgba(250, 204, 21, 0.6);
+      border-radius: 4px;
+      background: rgba(250, 204, 21, 0.2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fde047;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
+      transition: all 0.2s;
+    }
+    .fav-box:hover { background: rgba(250, 204, 21, 0.4); transform: scale(1.1); }
+
+    /* Gradasi Teks */
     .text-gradient { background: linear-gradient(to right, #ffffff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .text-gradient-blue { background: linear-gradient(to right, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     
-    .no-scroll { overflow: hidden; }
-
-    /* Pengaturan tampilan mobile */
-    @media (max-width: 1024px) {
-      body { height: auto; overflow: auto; }
-      .mobile-tab-hidden { display: none !important; }
+    /* Layout HP */
+    .mobile-hidden { display: none !important; }
+    @media (min-width: 1024px) {
+      .mobile-hidden { display: flex !important; }
+      .desktop-scroll-lock { overflow: hidden; }
+    }
+    @media (max-width: 1023px) {
+      .mobile-scroll { overflow-y: auto; overflow-x: hidden; padding-bottom: 20px;}
+      body { overflow-y: auto; }
     }
   </style>
 </head>
-<body class="flex flex-col p-2 lg:p-4">
+<body class="flex flex-col p-2 lg:p-4 h-full lg:h-screen desktop-scroll-lock bg-brand-900">
 
   <div id="screen-flash" class="flash-overlay"></div>
 
-  <!-- OVERLAY SPONSOR -->
+  <!-- OVERLAY SPONSOR / ORGANIZED BY -->
   <div id="sponsor-overlay" class="fixed inset-0 z-[100] bg-brand-900/95 backdrop-blur-xl flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-700">
-    <h2 class="text-sm font-black text-slate-500 tracking-[0.3em] uppercase mb-12">OUR PROUD SPONSORS</h2>
+    <h2 id="promo-category" class="text-sm md:text-xl font-black text-slate-500 tracking-[0.3em] uppercase mb-8 md:mb-12"></h2>
     <div id="sponsor-content" class="flex flex-col items-center text-center transition-opacity duration-500" style="opacity: 0;">
-      <!-- TEMPAT LINK SPONSOR: Gambar logo sponsor akan muncul di sini. Data diambil dari variabel sponsorData di bagian bawah -->
-      <img id="sponsor-img" src="" alt="Sponsor" class="h-40 md:h-56 object-contain mb-8">
-      <h3 id="sponsor-name" class="text-3xl md:text-5xl font-black text-white tracking-widest uppercase text-gradient mb-4"></h3>
-      <p id="sponsor-desc" class="text-base md:text-xl text-slate-400 font-medium"></p>
+      <img id="sponsor-img" src="" alt="Promo Logo" class="h-32 md:h-56 object-contain mb-6 md:mb-8">
+      <h3 id="sponsor-name" class="text-2xl md:text-5xl font-black text-white tracking-widest uppercase text-gradient mb-3 md:mb-4"></h3>
+      <p id="sponsor-desc" class="text-sm md:text-xl text-slate-400 font-medium"></p>
     </div>
-    <button onclick="hidePromo()" class="absolute top-8 right-8 text-white/30 hover:text-white/80 text-3xl transition-colors"><i class="fa-solid fa-xmark"></i></button>
+    <button onclick="hidePromo()" class="absolute top-6 right-6 md:top-8 md:right-8 text-white/30 hover:text-white/80 text-3xl transition-colors"><i class="fa-solid fa-xmark"></i></button>
   </div>
 
-  <!-- HEADER UTAMA -->
-  <header class="flex flex-col lg:flex-row items-center justify-between mb-3 bg-brand-800/50 border border-white/5 rounded-2xl p-3 shadow-lg shrink-0 z-10 sticky top-0 backdrop-blur-md">
-    <div class="flex items-center justify-between w-full lg:w-auto gap-4">
-      <img src="logo-pendekar.png" alt="Logo Pendekar" class="h-10 lg:h-12 object-contain">
-      <div class="text-center flex-1 lg:hidden">
-        <h1 class="text-xl font-black tracking-tight text-gradient leading-none mb-1">
-          LIVE RANK LKBB PENDEKAR <span class="text-gradient-blue">2026</span>
-        </h1>
+  <!-- HEADER DESKTOP (Tampil hanya di PC/TV) -->
+  <header class="hidden lg:flex items-center justify-between mb-4 bg-brand-800/50 border border-white/5 rounded-2xl p-3 shadow-lg shrink-0 h-[80px]">
+    <div class="flex items-center gap-4 h-full">
+      <img src="logo-pendekar.png" alt="Logo Pendekar" class="h-12 object-contain">
+      <div class="flex flex-col justify-center">
+        <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-2 py-0.5 mb-1">
+          <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
+          <span class="text-[10px] font-bold tracking-widest text-emerald-400 uppercase">SYSTEM SYNCED</span>
+        </div>
+        <div class="text-[10px] text-slate-400 font-semibold desktop-last-update">Last Sync: --:--:-- WIB</div>
       </div>
-      <div class="lg:hidden text-lg font-black text-white tracking-wider" id="live-realtime-clock-mobile">00:00:00</div>
     </div>
-
-    <div class="text-center hidden lg:block flex-1">
-      <h1 class="text-2xl lg:text-3xl font-black tracking-tight text-gradient leading-none mb-1">
+    <div class="text-center flex-1">
+      <h1 class="text-3xl font-black tracking-tight text-gradient leading-none mb-1">
         LIVE RANK LKBB PENDEKAR <span class="text-gradient-blue">2026</span>
       </h1>
-      <!-- TEMPAT LINK SUPPORTED BY: Teks ini bisa diganti dengan tag <img> jika ingin menggunakan logo. Contoh: <img src="link-gambar.jpg" class="h-6 mx-auto"> -->
-      <div class="text-[9px] font-bold text-slate-500 tracking-[0.2em] uppercase">SUPPORTED BY REKAP ANDALAN</div>
+      <div class="text-[10px] font-bold text-slate-500 tracking-[0.2em] uppercase">SUPPORTED BY REKAP ANDALAN</div>
     </div>
-
-    <div class="flex flex-col lg:flex-row items-center gap-4 mt-3 lg:mt-0 w-full lg:w-auto">
-      <div class="flex items-center justify-center gap-4 w-full lg:w-auto">
-        <div class="flex flex-col justify-center items-center lg:items-start">
-          <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-2 py-0.5 mb-1">
-            <span class="relative flex h-1.5 w-1.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span></span>
-            <span class="text-[9px] font-bold tracking-widest text-emerald-400 uppercase">SYSTEM SYNCED</span>
-          </div>
-          <div class="text-[9px] text-slate-400 font-semibold" id="last-update-clock">Last Sync: --:--:-- WIB</div>
-        </div>
-      </div>
-      
-      <!-- TAB MOBILE -->
-      <div class="flex lg:hidden w-full gap-2 mt-2">
-        <button onclick="switchTab('smp')" id="tab-btn-smp" class="flex-1 py-2 bg-[#60a5fa]/20 border border-[#60a5fa]/50 text-[#60a5fa] rounded-lg text-xs font-bold transition-all">SMP / MTs</button>
-        <button onclick="switchTab('sma')" id="tab-btn-sma" class="flex-1 py-2 bg-white/5 border border-white/10 text-slate-400 rounded-lg text-xs font-bold transition-all">SMA / SMK / MA</button>
-      </div>
-
-      <div class="hidden lg:flex items-center gap-4 h-full text-right">
-        <div class="text-lg lg:text-xl font-black text-white tracking-wider" id="live-realtime-clock">00:00:00</div>
-        <!-- LOGO REKAP ANDALAN DIPERBESAR (h-16) -->
-        <img src="https://lh3.googleusercontent.com/d/1UHSI3CLB0YCZ7uQ3O0sVIGMrVeK7qrK0=s1000" alt="Rekap Andalan" class="h-16 object-contain">
-      </div>
+    <div class="flex items-center gap-5 h-full text-right">
+      <div class="text-2xl font-black text-white tracking-wider desktop-realtime-clock">00:00:00</div>
+      <!-- Logo Rekap Andalan Diperbesar (Sesuai Revisi #5) -->
+      <img src="https://lh3.googleusercontent.com/d/1UHSI3CLB0YCZ7uQ3O0sVIGMrVeK7qrK0=s1000" alt="Rekap Andalan" class="h-14 object-contain">
     </div>
   </header>
 
-  <!-- KONTEN UTAMA -->
-  <main class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4 min-h-0 pb-1">
+  <!-- HEADER MOBILE (Tampil hanya di HP) -->
+  <header class="flex lg:hidden flex-col mb-3 bg-brand-800/50 border border-white/5 rounded-2xl p-3 shadow-lg shrink-0 w-full">
+    <div class="flex justify-between items-center w-full mb-3">
+       <img src="logo-pendekar.png" alt="Logo Pendekar" class="h-10 object-contain">
+       <div class="text-center flex-1 px-2">
+         <h1 class="text-base sm:text-lg font-black tracking-tight text-gradient leading-none">LKBB PENDEKAR <span class="text-gradient-blue">2026</span></h1>
+       </div>
+       <img src="https://lh3.googleusercontent.com/d/1UHSI3CLB0YCZ7uQ3O0sVIGMrVeK7qrK0=s1000" alt="Rekap Andalan" class="h-10 object-contain">
+    </div>
     
-    <!-- KOLOM SMP -->
-    <div id="col-smp" class="flex flex-col lg:flex-row h-full bg-brand-800/30 rounded-2xl border border-white/5 p-2 shadow-xl gap-2.5">
-      <div class="hidden lg:flex items-center justify-center w-8 lg:w-10 bg-white/5 rounded-xl border border-white/10 shrink-0 py-4">
-        <h2 class="text-sm lg:text-base font-black text-white tracking-[0.3em] uppercase whitespace-nowrap" style="writing-mode: vertical-rl; transform: rotate(180deg);">
+    <!-- Indikator Berjajar Sesuai Revisi #1 -->
+    <div class="flex justify-center items-center gap-3 w-full bg-black/20 py-1.5 rounded-lg mb-3">
+       <div class="inline-flex items-center gap-1.5">
+          <span class="relative flex h-1.5 w-1.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span></span>
+          <span class="text-[8px] font-bold text-emerald-400 uppercase">SYNCED</span>
+       </div>
+       <div class="text-[9px] text-slate-400 font-semibold mobile-last-update">Sync: --:--</div>
+       <div class="text-[11px] font-black text-white mobile-realtime-clock">00:00:00</div>
+    </div>
+
+    <!-- Tombol Tab Sesuai Revisi #1 -->
+    <div class="flex justify-center w-full gap-2">
+       <button id="btn-tab-smp" onclick="switchTab('smp')" class="flex-1 py-2 text-xs font-bold rounded-lg transition-colors bg-blue-600 text-white shadow-lg">SMP / MTs</button>
+       <button id="btn-tab-sma" onclick="switchTab('sma')" class="flex-1 py-2 text-xs font-bold rounded-lg transition-colors bg-white/5 text-slate-400 border border-white/10">SMA / SMK / MA</button>
+    </div>
+  </header>
+
+  <!-- KONTEN UTAMA: GRID & TAB -->
+  <main class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-0 lg:pb-1">
+    
+    <!-- ==================== KOLOM SMP ==================== -->
+    <div id="col-smp" class="flex flex-row h-full lg:h-full bg-brand-800/30 rounded-2xl border border-white/5 p-2 lg:p-3 shadow-xl gap-2 mobile-scroll lg:overflow-hidden">
+      <!-- HEADER VERTIKAL KIRI -->
+      <div class="flex items-center justify-center w-8 lg:w-12 bg-white/5 rounded-xl border border-white/10 shrink-0 py-4">
+        <h2 class="text-xs lg:text-base font-black text-white tracking-[0.3em] uppercase whitespace-nowrap" style="writing-mode: vertical-rl; transform: rotate(180deg);">
           SMP / MTs
         </h2>
       </div>
       
-      <div class="flex-1 flex flex-col min-w-0">
+      <div class="flex-1 flex flex-col min-w-0 h-full">
+        <!-- PODIUM TOP 3 SMP -->
         <div id="podium-smp" class="grid grid-cols-3 gap-2 mb-2 shrink-0"></div>
-        <div class="flex-1 flex flex-col lg:flex-row min-h-0 gap-2 border-t border-white/5 pt-2">
+        
+        <!-- LIST SISA SMP -->
+        <div class="flex-1 flex flex-col lg:flex-row min-h-0 gap-2 lg:gap-3 border-t border-white/5 pt-2">
+           <!-- KOLOM KIRI (7 Baris) -->
            <div class="flex-1 flex flex-col min-h-0">
-              <div class="grid grid-cols-[100px_1fr_40px] lg:grid-cols-[120px_1fr_50px] items-center text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 bg-white/5 rounded py-1 gap-1">
+              <div class="grid grid-cols-[100px_1fr_45px] lg:grid-cols-[115px_1fr_50px] items-center text-[9px] lg:text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1.5 shrink-0 bg-white/5 rounded py-1.5 gap-1">
                  <div class="text-left">RANK</div>
                  <div class="text-center">NO. TAMPIL</div>
                  <div class="text-right">TOTAL</div>
               </div>
-              <div id="list-smp-col1" class="w-full flex flex-col gap-1.5 relative flex-1 min-h-0"></div>
+              <div id="list-smp-col1" class="w-full flex flex-col gap-1 lg:gap-[6px] relative flex-1 min-h-0"></div>
            </div>
+           <!-- KOLOM KANAN (6 Baris) -->
            <div class="flex-1 flex flex-col min-h-0">
-              <div class="grid grid-cols-[100px_1fr_40px] lg:grid-cols-[120px_1fr_50px] items-center text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 bg-white/5 rounded py-1 gap-1">
+              <div class="grid grid-cols-[100px_1fr_45px] lg:grid-cols-[115px_1fr_50px] items-center text-[9px] lg:text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1.5 shrink-0 bg-white/5 rounded py-1.5 gap-1">
                  <div class="text-left">RANK</div>
                  <div class="text-center">NO. TAMPIL</div>
                  <div class="text-right">TOTAL</div>
               </div>
-              <div id="list-smp-col2" class="w-full flex flex-col gap-1.5 relative flex-1 min-h-0"></div>
+              <div id="list-smp-col2" class="w-full flex flex-col gap-1 lg:gap-[6px] relative flex-1 min-h-0"></div>
            </div>
         </div>
       </div>
     </div>
 
-    <!-- KOLOM SMA -->
-    <div id="col-sma" class="flex flex-col lg:flex-row h-full bg-brand-800/30 rounded-2xl border border-white/5 p-2 shadow-xl gap-2.5 mobile-tab-hidden">
-      <div class="hidden lg:flex items-center justify-center w-8 lg:w-10 bg-white/5 rounded-xl border border-white/10 shrink-0 py-4">
-        <h2 class="text-sm lg:text-base font-black text-white tracking-[0.3em] uppercase whitespace-nowrap" style="writing-mode: vertical-rl; transform: rotate(180deg);">
+    <!-- ==================== KOLOM SMA ==================== -->
+    <div id="col-sma" class="flex flex-row h-full lg:h-full bg-brand-800/30 rounded-2xl border border-white/5 p-2 lg:p-3 shadow-xl gap-2 mobile-hidden lg:overflow-hidden mobile-scroll">
+      <!-- HEADER VERTIKAL KIRI -->
+      <div class="flex items-center justify-center w-8 lg:w-12 bg-white/5 rounded-xl border border-white/10 shrink-0 py-4">
+        <h2 class="text-xs lg:text-base font-black text-white tracking-[0.3em] uppercase whitespace-nowrap" style="writing-mode: vertical-rl; transform: rotate(180deg);">
           SMA / SMK / MA
         </h2>
       </div>
       
-      <div class="flex-1 flex flex-col min-w-0">
+      <div class="flex-1 flex flex-col min-w-0 h-full">
+        <!-- PODIUM TOP 3 SMA -->
         <div id="podium-sma" class="grid grid-cols-3 gap-2 mb-2 shrink-0"></div>
-        <div class="flex-1 flex flex-col lg:flex-row min-h-0 gap-2 border-t border-white/5 pt-2">
+        
+        <!-- LIST SISA SMA -->
+        <div class="flex-1 flex flex-col lg:flex-row min-h-0 gap-2 lg:gap-3 border-t border-white/5 pt-2">
+           <!-- KOLOM KIRI (15 Card) -->
            <div class="flex-1 flex flex-col min-h-0">
-              <div class="grid grid-cols-[100px_1fr_40px] lg:grid-cols-[120px_1fr_50px] items-center text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 bg-white/5 rounded py-1 gap-1">
+              <div class="grid grid-cols-[100px_1fr_45px] lg:grid-cols-[115px_1fr_50px] items-center text-[9px] lg:text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 shrink-0 bg-white/5 rounded py-1 gap-1">
                  <div class="text-left">RANK</div>
                  <div class="text-center">NO. TAMPIL</div>
                  <div class="text-right">TOTAL</div>
               </div>
-              <div id="list-sma-col1" class="w-full flex flex-col gap-1.5 relative flex-1 min-h-0"></div>
+              <div id="list-sma-col1" class="w-full flex flex-col justify-between relative flex-1 min-h-0 gap-0.5"></div>
            </div>
+           <!-- KOLOM KANAN (15 Card) -->
            <div class="flex-1 flex flex-col min-h-0">
-              <div class="grid grid-cols-[100px_1fr_40px] lg:grid-cols-[120px_1fr_50px] items-center text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 bg-white/5 rounded py-1 gap-1">
+              <div class="grid grid-cols-[100px_1fr_45px] lg:grid-cols-[115px_1fr_50px] items-center text-[9px] lg:text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 shrink-0 bg-white/5 rounded py-1 gap-1">
                  <div class="text-left">RANK</div>
                  <div class="text-center">NO. TAMPIL</div>
                  <div class="text-right">TOTAL</div>
               </div>
-              <div id="list-sma-col2" class="w-full flex flex-col gap-1.5 relative flex-1 min-h-0"></div>
+              <div id="list-sma-col2" class="w-full flex flex-col justify-between relative flex-1 min-h-0 gap-0.5"></div>
            </div>
         </div>
       </div>
@@ -225,81 +268,87 @@
 
   </main>
 
-  <button onclick="showPromo()" class="fixed bottom-3 right-3 opacity-10 hover:opacity-100 bg-white/10 p-2 rounded-full text-white transition-all z-[90]">
-    <i class="fa-solid fa-star"></i>
+  <button onclick="showPromo()" class="fixed bottom-4 right-4 opacity-20 hover:opacity-100 bg-white/10 p-3 rounded-full text-white transition-all z-[90]">
+    <i class="fa-solid fa-bullhorn"></i>
   </button>
 
   <script>
+    // ==========================================
+    // 1. LINK DATA SPREADSHEET (GAS API)
+    // ==========================================
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzTSP4qFth4q0Ufjbag-uq_WFh2-jHvQ0RY9w4e8oemtdwlw_PPL99z3FZ7Aec1-C4h/exec";
 
-    // TEMPAT LINK SPONSOR: Ganti URL di bagian 'logo' dengan link gambar/logo sponsor yang diinginkan
-    const sponsorData = [
-      { logo: "https://lh3.googleusercontent.com/d/185LBG7napo7sSUDR29NBOi179fN1dbep=s1000", nama: "TJOBRUT STORE", deskripsi: "Pusat Atribut Paskibra Terlengkap dan Termurah" },
-      { logo: "https://lh3.googleusercontent.com/d/1S8ycvcUE99tn-w7TKXPJ5lRlbWowuwIb=s1000", nama: "COSMO ATRIBUT", deskripsi: "" }
+    // ==========================================
+    // 2. KONFIGURASI SPONSOR / ORGANIZER (REVISI #3)
+    // Silakan ganti link gambar, nama, dan deskripsi di bawah ini. 
+    // Tambahkan / hapus objek {} untuk menambah/mengurangi daftar.
+    // ==========================================
+    const promoConfig = [
+      {
+        category: "ORGANIZED BY",
+        items: [
+          // Ganti link foto logo Organizer Anda disini:
+          { logo: "logo-pendekar.png", nama: "PASKIBRA X", deskripsi: "Penyelenggara Utama Event LKBB Pendekar" }
+        ]
+      },
+      {
+        category: "SUPPORTED BY",
+        items: [
+          { logo: "https://lh3.googleusercontent.com/d/1UHSI3CLB0YCZ7uQ3O0sVIGMrVeK7qrK0=s1000", nama: "REKAP ANDALAN", deskripsi: "Platform Live Ranking System Event Kreatif" }
+        ]
+      },
+      {
+        category: "SPONSORED BY",
+        items: [
+          { logo: "https://lh3.googleusercontent.com/d/185LBG7napo7sSUDR29NBOi179fN1dbep=s1000", nama: "TJOBRUT STORE", deskripsi: "Pusat Atribut Paskibra Terlengkap dan Termurah" },
+          { logo: "https://lh3.googleusercontent.com/d/1S8ycvcUE99tn-w7TKXPJ5lRlbWowuwIb=s1000", nama: "COSMO ATRIBUT", deskripsi: "Grosir Perlengkapan & Seragam" }
+        ]
+      }
     ];
 
-    let followedParticipants = new Set();
+    // ==========================================
+    // LOGIKA TAB HP & PENANDA FAVORIT BINTANG
+    // ==========================================
     
-    function toggleFollow(noUrut) {
-      if(followedParticipants.has(noUrut)) {
-        if(confirm(`Batal mengikuti peserta nomor ${noUrut}?`)) {
-          followedParticipants.delete(noUrut);
-          renderCategorySMP(); renderCategorySMA();
-        }
-      } else {
-        if(confirm(`Ikuti peserta nomor urut ${noUrut}?`)) {
-          followedParticipants.add(noUrut);
-          renderCategorySMP(); renderCategorySMA();
-        }
-      }
-    }
-
+    // Tab Logika HP
     function switchTab(tab) {
-      if(window.innerWidth >= 1024) return;
-      const colSmp = document.getElementById('col-smp');
-      const colSma = document.getElementById('col-sma');
-      const btnSmp = document.getElementById('tab-btn-smp');
-      const btnSma = document.getElementById('tab-btn-sma');
-
-      if(tab === 'smp') {
-        colSmp.classList.remove('mobile-tab-hidden'); colSma.classList.add('mobile-tab-hidden');
-        btnSmp.className = "flex-1 py-2 bg-[#60a5fa]/20 border border-[#60a5fa]/50 text-[#60a5fa] rounded-lg text-xs font-bold transition-all";
-        btnSma.className = "flex-1 py-2 bg-white/5 border border-white/10 text-slate-400 rounded-lg text-xs font-bold transition-all";
-      } else {
-        colSma.classList.remove('mobile-tab-hidden'); colSmp.classList.add('mobile-tab-hidden');
-        btnSma.className = "flex-1 py-2 bg-[#60a5fa]/20 border border-[#60a5fa]/50 text-[#60a5fa] rounded-lg text-xs font-bold transition-all";
-        btnSmp.className = "flex-1 py-2 bg-white/5 border border-white/10 text-slate-400 rounded-lg text-xs font-bold transition-all";
-      }
+       document.getElementById('col-smp').classList.toggle('mobile-hidden', tab !== 'smp');
+       document.getElementById('col-sma').classList.toggle('mobile-hidden', tab !== 'sma');
+       
+       const btnSmp = document.getElementById('btn-tab-smp');
+       const btnSma = document.getElementById('btn-tab-sma');
+       if(tab === 'smp') {
+          btnSmp.className = "flex-1 py-2 text-xs font-bold rounded-lg transition-colors bg-blue-600 text-white shadow-lg";
+          btnSma.className = "flex-1 py-2 text-xs font-bold rounded-lg transition-colors bg-white/5 text-slate-400 border border-white/10";
+       } else {
+          btnSma.className = "flex-1 py-2 text-xs font-bold rounded-lg transition-colors bg-blue-600 text-white shadow-lg";
+          btnSmp.className = "flex-1 py-2 text-xs font-bold rounded-lg transition-colors bg-white/5 text-slate-400 border border-white/10";
+       }
     }
 
-    let promoTimer = null; let promoIsActive = false;
-    function showPromo() {
-      if(sponsorData.length === 0 || promoIsActive) return;
-      promoIsActive = true;
-      const overlay = document.getElementById('sponsor-overlay'); const content = document.getElementById('sponsor-content');
-      overlay.classList.remove('opacity-0', 'pointer-events-none'); overlay.classList.add('opacity-100');
-      let idx = 0;
-      function showNextSponsor() {
-        if(idx >= sponsorData.length || !promoIsActive) { hidePromo(); return; }
-        content.style.opacity = 0;
-        setTimeout(() => {
-          document.getElementById('sponsor-img').src = sponsorData[idx].logo;
-          document.getElementById('sponsor-name').innerText = sponsorData[idx].nama;
-          const descEl = document.getElementById('sponsor-desc');
-          descEl.innerText = sponsorData[idx].deskripsi; descEl.style.display = sponsorData[idx].deskripsi ? "block" : "none";
-          content.style.opacity = 1; idx++;
-          promoTimer = setTimeout(showNextSponsor, 5000);
-        }, 500);
-      }
-      showNextSponsor();
+    // Set Penyimpanan Favorit
+    let favoriteSet = new Set();
+    
+    function toggleFavorite(cat, id) {
+       event.stopPropagation(); // Cegah event klik merembet
+       const key = cat + '-' + id;
+       
+       if (favoriteSet.has(key)) {
+           if(confirm("Berhenti menandai peserta nomor " + id + " sebagai favorit?")) {
+               favoriteSet.delete(key);
+               renderCategorySMP(); renderCategorySMA();
+           }
+       } else {
+           if(confirm("Ikuti (Tandai Bintang) peserta nomor " + id + "?")) {
+               favoriteSet.add(key);
+               renderCategorySMP(); renderCategorySMA();
+           }
+       }
     }
-    function hidePromo() {
-      promoIsActive = false; clearTimeout(promoTimer);
-      const overlay = document.getElementById('sponsor-overlay');
-      overlay.classList.remove('opacity-100'); overlay.classList.add('opacity-0', 'pointer-events-none');
-    }
-    setInterval(showPromo, 15 * 60 * 1000);
 
+    // ==========================================
+    // LOGIKA RENDER CARD
+    // ==========================================
     let liveData = { smp: [], sma: [] };
     let previousFullSignature = { smp: "", sma: "" };
     let teamRankTracker = { smp: {}, sma: {} };
@@ -307,7 +356,7 @@
     let lastDataSyncTime = 0; let isUpdating = false;
 
     function getIndicatorData(cat, item, currentIndex) {
-      if (!item || !item.totalNilai || item.totalNilai <= 0) return `<span class="text-slate-500 font-bold text-[10px]">—</span>`;
+      if (!item || !item.totalNilai || item.totalNilai <= 0) return `<span class="text-slate-500 font-bold text-[11px] lg:text-[13px]">—</span>`;
       
       const teamKey = item.noUrut;
       if (!teamRankTracker[cat]) teamRankTracker[cat] = {};
@@ -317,13 +366,12 @@
       if (prevData !== undefined) {
         if (currentIndex < prevData.rankIndex) { status = 'up'; } 
         else if (currentIndex > prevData.rankIndex) { status = 'down'; } 
-        else { status = 'same'; }
       }
       teamRankTracker[cat][teamKey] = { rankIndex: currentIndex, status: status };
 
-      if (status === 'up') return `<span class="text-[#10b981] font-black text-[12px] leading-none">▲</span>`;
-      if (status === 'down') return `<span class="text-[#ef4444] font-black text-[12px] leading-none">▼</span>`;
-      return `<span class="text-slate-500 font-bold text-[12px]">—</span>`;
+      if (status === 'up') return `<span class="text-[#10b981] font-black text-[11px] lg:text-[13px] leading-none">▲</span>`;
+      if (status === 'down') return `<span class="text-[#ef4444] font-black text-[11px] lg:text-[13px] leading-none">▼</span>`;
+      return `<span class="text-slate-500 font-bold text-[11px] lg:text-[13px]">—</span>`;
     }
 
     function buildCard(item, cat, actualIndex, isPodium = false) {
@@ -331,17 +379,27 @@
       const indicatorHtml = getIndicatorData(cat, data, actualIndex);
       
       let displayNo = data.noUrut;
-      if (!isNaN(displayNo) && displayNo !== '-' && displayNo > 0 && displayNo < 10) { 
-          displayNo = '0' + parseInt(displayNo); 
-      }
+      if (!isNaN(displayNo) && displayNo !== '-' && displayNo > 0 && displayNo < 10) { displayNo = '0' + parseInt(displayNo); }
       
       const rankStr = data.rank || (actualIndex + 1);
-      const isFollowed = followedParticipants.has(displayNo);
-      const starHtml = isFollowed ? '★' : displayNo;
-      const followClass = isFollowed ? 'followed' : '';
+      
+      // CEK STATUS FAVORIT
+      const favKey = cat + '-' + displayNo;
+      const isFav = favoriteSet.has(favKey);
 
+      // KOTAK NOMOR: Jika favorit jadi kotak bintang, jika tidak kotak biasa
+      let noBoxHtml = isFav 
+        ? `<div onclick="toggleFavorite('${cat}', '${displayNo}')" class="fav-box px-1 lg:px-1.5 h-[18px] lg:h-[22px] min-w-[24px] lg:min-w-[30px]" title="Hapus Favorit">
+             <i class="fa-solid fa-star text-[9px] lg:text-[10px] mr-1"></i>
+             <span class="text-[11px] lg:text-[13px] font-bold leading-none">${displayNo}</span>
+           </div>`
+        : `<div onclick="toggleFavorite('${cat}', '${displayNo}')" class="no-box px-1 lg:px-1.5 h-[18px] lg:h-[22px] min-w-[24px] lg:min-w-[30px]" title="Klik untuk ikuti">
+             <span class="text-[11px] lg:text-[13px] font-bold text-white leading-none">${displayNo}</span>
+           </div>`;
+
+      // RENDER KOTAK PODIUM
       if (isPodium) {
-        let glowClass = 'podium-card px-2 py-2 h-[55px] lg:h-[60px] flex flex-col justify-between anim-item w-full shrink-0';
+        let glowClass = 'podium-card px-3 py-2 h-[50px] lg:h-[60px] flex flex-col justify-between anim-item hover-sorot w-full shrink-0';
         if(actualIndex === 0) glowClass += ' top1-glow';
         if(actualIndex === 1) glowClass += ' top2-glow';
         if(actualIndex === 2) glowClass += ' top3-glow';
@@ -350,36 +408,36 @@
         return `
           <div class="${glowClass}" data-id="${data.noUrut || actualIndex}">
             <div class="flex justify-between items-center w-full px-1">
-               <span class="text-[11px] lg:text-[12px] font-bold text-white rank-text uppercase">${trophy} ${rankStr}</span>
+               <span class="text-[11px] lg:text-[13px] font-bold text-white rank-text uppercase">${trophy} ${rankStr}</span>
             </div>
             <div class="flex justify-between items-center w-full px-1 mt-0.5">
-               <div onclick="toggleFollow('${displayNo}')" class="no-box ${followClass} px-2 py-0.5 h-[22px]" title="Klik untuk mengikuti/menandai peserta">
-                  <span class="text-[12px] font-bold leading-none">${starHtml}</span>
-               </div>
-               <div class="flex items-center gap-2">
+               ${noBoxHtml}
+               <div class="flex items-center gap-1.5 lg:gap-2">
                   <div class="w-[14px] text-center flex items-center justify-center">${indicatorHtml}</div>
-                  <span class="text-[14px] lg:text-[16px] font-black text-[#60a5fa] leading-none">${data.totalNilai || '0'}</span>
+                  <span class="text-[14px] lg:text-[17px] font-black text-[#60a5fa] leading-none">${data.totalNilai || '0'}</span>
                </div>
             </div>
           </div>
         `;
       }
 
+      // RENDER KOTAK LIST BIASA (Diperbesar sesuai Revisi #4)
       return `
-        <div class="rank-card px-2 lg:px-3 grid grid-cols-[100px_1fr_40px] lg:grid-cols-[120px_1fr_50px] gap-1 items-center w-full flex-1 min-h-[32px] max-h-[40px] anim-item shrink-0" data-id="${data.noUrut || actualIndex}">
+        <div class="rank-card hover-sorot px-3 grid grid-cols-[100px_1fr_45px] lg:grid-cols-[115px_1fr_50px] gap-1 items-center w-full flex-1 min-h-[28px] max-h-[45px] anim-item shrink-0" data-id="${data.noUrut || actualIndex}">
+          <!-- KIRI: RANK UTUH -->
           <div class="flex items-center text-left">
-            <span class="text-[10px] lg:text-[11px] font-bold text-white uppercase rank-text leading-none">${rankStr}</span>
+            <span class="text-[10px] lg:text-[12px] font-bold text-white uppercase rank-text leading-none">${rankStr}</span>
           </div>
-          <div class="flex justify-center items-center gap-1.5 lg:gap-2">
-             <div onclick="toggleFollow('${displayNo}')" class="no-box ${followClass} px-1.5 py-0.5 h-[20px] min-w-[24px]" title="Klik untuk mengikuti/menandai peserta">
-                <span class="text-[11px] font-bold leading-none">${starHtml}</span>
-             </div>
+          <!-- TENGAH: NO TAMPIL & INDIKATOR -->
+          <div class="flex justify-center items-center gap-2 lg:gap-3">
+             ${noBoxHtml}
              <div class="w-[14px] flex items-center justify-center">
                 ${indicatorHtml}
              </div>
           </div>
+          <!-- KANAN: TOTAL NILAI -->
           <div class="flex items-center justify-end">
-            <span class="text-[12px] lg:text-[14px] font-black text-[#60a5fa] leading-none">${data.totalNilai || '0'}</span>
+            <span class="text-[12px] lg:text-[15px] font-black text-[#60a5fa] leading-none">${data.totalNilai || '0'}</span>
           </div>
         </div>
       `;
@@ -401,7 +459,7 @@
             node.style.transition = 'none';
             requestAnimationFrame(() => {
               node.style.transform = '';
-              node.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+              node.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
             });
           }
         }
@@ -411,42 +469,32 @@
     function renderCategorySMP() {
       const items = (liveData['smp'] || []).slice(0, tabLimits['smp']);
       if (items.length === 0) return;
-
-      const top3 = items.slice(0, 3);
-      const remainingItems = items.slice(3);
+      const top3 = items.slice(0, 3); const remainingItems = items.slice(3);
 
       let podiumHtml = '';
       for(let i=0; i<3; i++) podiumHtml += buildCard(top3[i], 'smp', i, true);
       document.getElementById('podium-smp').innerHTML = podiumHtml;
 
-      const col1Items = remainingItems.slice(0, 7);
-      const col2Items = remainingItems.slice(7, 13);
-
-      let col1Html = ''; col1Items.forEach((item, idx) => { col1Html += buildCard(item, 'smp', idx + 3, false); });
+      let col1Html = ''; remainingItems.slice(0, 7).forEach((item, idx) => { col1Html += buildCard(item, 'smp', idx + 3, false); });
       applyFlipAnimation(document.getElementById('list-smp-col1'), col1Html);
 
-      let col2Html = ''; col2Items.forEach((item, idx) => { col2Html += buildCard(item, 'smp', (idx + 3) + 7, false); });
+      let col2Html = ''; remainingItems.slice(7, 13).forEach((item, idx) => { col2Html += buildCard(item, 'smp', (idx + 3) + 7, false); });
       applyFlipAnimation(document.getElementById('list-smp-col2'), col2Html);
     }
 
     function renderCategorySMA() {
       const items = (liveData['sma'] || []).slice(0, tabLimits['sma']);
       if (items.length === 0) return;
-
-      const top3 = items.slice(0, 3);
-      const remainingItems = items.slice(3);
+      const top3 = items.slice(0, 3); const remainingItems = items.slice(3);
 
       let podiumHtml = '';
       for(let i=0; i<3; i++) podiumHtml += buildCard(top3[i], 'sma', i, true);
       document.getElementById('podium-sma').innerHTML = podiumHtml;
 
-      const col1Items = remainingItems.slice(0, 15);
-      const col2Items = remainingItems.slice(15, 30);
-
-      let col1Html = ''; col1Items.forEach((item, idx) => { col1Html += buildCard(item, 'sma', idx + 3, false); });
+      let col1Html = ''; remainingItems.slice(0, 15).forEach((item, idx) => { col1Html += buildCard(item, 'sma', idx + 3, false); });
       applyFlipAnimation(document.getElementById('list-sma-col1'), col1Html);
 
-      let col2Html = ''; col2Items.forEach((item, idx) => { col2Html += buildCard(item, 'sma', (idx + 3) + 15, false); });
+      let col2Html = ''; remainingItems.slice(15, 30).forEach((item, idx) => { col2Html += buildCard(item, 'sma', (idx + 3) + 15, false); });
       applyFlipAnimation(document.getElementById('list-sma-col2'), col2Html);
     }
 
@@ -455,28 +503,59 @@
       flashEl.classList.remove('is-flashing'); void flashEl.offsetWidth; flashEl.classList.add('is-flashing');
       setTimeout(() => { if(callback) callback(); }, 500); 
     }
-
     function triggerConfetti() {
-      const duration = 3 * 1000; const animationEnd = Date.now() + duration; const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
-      function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-      const interval = setInterval(function() {
-        const timeLeft = animationEnd - Date.now(); if (timeLeft <= 0) return clearInterval(interval);
-        const particleCount = 50 * (timeLeft / duration);
-        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-      }, 250);
+      const duration = 3000; const end = Date.now() + duration;
+      (function frame() {
+        confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, zIndex:9999 });
+        confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, zIndex:9999 });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      }());
     }
 
     function updateClocks() {
-      const now = new Date(); 
-      const timeStr = now.toLocaleTimeString('id-ID', { hour12: false });
-      document.getElementById('live-realtime-clock').innerText = timeStr;
-      if(document.getElementById('live-realtime-clock-mobile')) {
-         document.getElementById('live-realtime-clock-mobile').innerText = timeStr;
-      }
+      const now = new Date(); const timeStr = now.toLocaleTimeString('id-ID', { hour12: false });
+      document.querySelectorAll('.desktop-realtime-clock, .mobile-realtime-clock').forEach(el => el.innerText = timeStr);
     }
     setInterval(updateClocks, 1000); updateClocks();
 
+    // ==========================================
+    // SISTEM SLIDE PROMO (REVISI #3)
+    // ==========================================
+    let promoTimer = null; let promoIsActive = false;
+    let promoFlatList = [];
+    promoConfig.forEach(cat => { cat.items.forEach(item => { promoFlatList.push({ ...item, catName: cat.category }); }); });
+
+    function showPromo() {
+      if(promoFlatList.length === 0 || promoIsActive) return;
+      promoIsActive = true;
+      const overlay = document.getElementById('sponsor-overlay'); const content = document.getElementById('sponsor-content');
+      overlay.classList.remove('opacity-0', 'pointer-events-none'); overlay.classList.add('opacity-100');
+      let idx = 0;
+      function showNextSponsor() {
+        if(idx >= promoFlatList.length || !promoIsActive) { hidePromo(); return; }
+        content.style.opacity = 0;
+        setTimeout(() => {
+          document.getElementById('promo-category').innerText = promoFlatList[idx].catName;
+          document.getElementById('sponsor-img').src = promoFlatList[idx].logo;
+          document.getElementById('sponsor-name').innerText = promoFlatList[idx].nama;
+          const descEl = document.getElementById('sponsor-desc');
+          descEl.innerText = promoFlatList[idx].deskripsi; descEl.style.display = promoFlatList[idx].deskripsi ? "block" : "none";
+          content.style.opacity = 1; idx++;
+          promoTimer = setTimeout(showNextSponsor, 5000);
+        }, 500);
+      }
+      showNextSponsor();
+    }
+    function hidePromo() {
+      promoIsActive = false; clearTimeout(promoTimer);
+      const overlay = document.getElementById('sponsor-overlay');
+      overlay.classList.remove('opacity-100'); overlay.classList.add('opacity-0', 'pointer-events-none');
+    }
+    setInterval(showPromo, 15 * 60 * 1000);
+
+    // ==========================================
+    // PENGAMBILAN DATA
+    // ==========================================
     async function fetchData() {
       if(isUpdating) return;
       isUpdating = true;
@@ -487,16 +566,10 @@
         let hasStructuralChange = false; let hasTop3Change = false;
         ['smp', 'sma'].forEach(cat => {
           let catData = data[cat] || [];
-          
-          if(catData.length > 0 && (
-             String(catData[0].rank).toUpperCase() === 'RANK' || 
-             String(catData[0].totalNilai).toUpperCase().includes('TOTAL')
-          )) {
+          if(catData.length > 0 && (String(catData[0].rank).toUpperCase() === 'RANK' || String(catData[0].totalNilai).toUpperCase().includes('TOTAL'))) {
              catData.shift();
           }
-
-          const limit = tabLimits[cat]; 
-          const currentItems = catData.slice(0, limit);
+          const limit = tabLimits[cat]; const currentItems = catData.slice(0, limit);
           
           const fullSig = currentItems.map(item => `${item.rank}:${item.totalNilai}:${item.noUrut}`).join('|');
           if (previousFullSignature[cat] !== fullSig && previousFullSignature[cat] !== "") {
@@ -506,14 +579,14 @@
             if(oldTop3Sig !== newTop3Sig) hasTop3Change = true;
           }
           previousFullSignature[cat] = fullSig;
-          
           data[cat] = currentItems;
         });
 
         if(data.lastSync && data.lastSync !== lastDataSyncTime) {
            lastDataSyncTime = data.lastSync;
-           const syncDate = new Date(data.lastSync);
-           document.getElementById('last-update-clock').innerText = `Last Sync: ${syncDate.toLocaleTimeString('id-ID', { hour12: false })} WIB`;
+           const syncStr = `Last Sync: ${new Date(data.lastSync).toLocaleTimeString('id-ID', { hour12: false })} WIB`;
+           document.querySelectorAll('.desktop-last-update').forEach(el => el.innerText = syncStr);
+           document.querySelectorAll('.mobile-last-update').forEach(el => el.innerText = `Sync: ${new Date(data.lastSync).toLocaleTimeString('id-ID', { hour12: false })}`);
         }
 
         if (hasStructuralChange) {

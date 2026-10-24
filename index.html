@@ -16,9 +16,7 @@
         extend: {
           fontFamily: { sans: ['Inter', 'sans-serif'] },
           colors: {
-            brand: { 900: '#060813', 800: '#0a0d1c', 700: '#11162b', card: '#0f1423' },
-            textprimary: '#e2e8f0',
-            textsecondary: '#64748b'
+            brand: { 900: '#060813', 800: '#0a0d1c', 700: '#11162b', card: '#0f1423' }
           }
         }
       }
@@ -34,7 +32,7 @@
       padding: 0;
     }
 
-    /* --- FLASH SCREEN --- */
+    /* --- KEDIP LAYAR HALUS --- */
     .flash-overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0);
@@ -47,27 +45,26 @@
       100% { box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0); }
     }
 
-    /* --- LIST & ANIMATION --- */
+    /* --- FLIP ANIMATION --- */
     .list-item { 
       transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); 
       position: relative;
     }
 
-    /* Rank Text - WAJIB TAMPIL SEMUA, NO ELLIPSIS */
+    /* Pastikan Rank Text Utuh Tanpa Terpotong */
     .rank-text {
       white-space: nowrap;
       overflow: visible;
       letter-spacing: 0.02em;
     }
 
-    /* Card Item Basic */
+    /* Desain Card */
     .rank-card {
       background: rgba(15, 20, 35, 0.6);
       border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
+      border-radius: 6px;
     }
-    
-    .podium-card { background: rgba(15, 20, 35, 0.8); border-radius: 10px; }
+    .podium-card { background: rgba(15, 20, 35, 0.8); border-radius: 8px; }
     .top1-glow { border: 1px solid rgba(250, 204, 21, 0.3); }
     .top2-glow { border: 1px solid rgba(148, 163, 184, 0.3); }
     .top3-glow { border: 1px solid rgba(217, 119, 6, 0.3); }
@@ -81,7 +78,7 @@
       align-items: center;
       justify-content: center;
       padding: 1px 6px;
-      min-width: 28px;
+      min-width: 26px;
     }
 
     /* Gradasi Teks */
@@ -107,15 +104,15 @@
   </div>
 
   <!-- HEADER -->
-  <header class="flex items-center justify-between mb-3 bg-brand-800/50 border border-white/5 rounded-2xl p-3 shadow-lg shrink-0 h-20">
+  <header class="flex items-center justify-between mb-3 bg-brand-800/50 border border-white/5 rounded-2xl p-3 shadow-lg shrink-0 h-[72px]">
     <div class="flex items-center gap-4 h-full">
-      <img src="logo-pendekar.png" alt="Logo Pendekar" class="h-12 object-contain">
+      <img src="logo-pendekar.png" alt="Logo Pendekar" class="h-10 object-contain">
       <div class="flex flex-col justify-center">
         <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-2 py-0.5 mb-1">
           <span class="relative flex h-1.5 w-1.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span></span>
           <span class="text-[9px] font-bold tracking-widest text-emerald-400 uppercase">SYSTEM SYNCED</span>
         </div>
-        <div class="text-[10px] text-slate-400 font-semibold" id="last-update-clock">Last Sync: --:--:-- WIB</div>
+        <div class="text-[9px] text-slate-400 font-semibold" id="last-update-clock">Last Sync: --:--:-- WIB</div>
       </div>
     </div>
 
@@ -127,8 +124,8 @@
     </div>
 
     <div class="flex items-center gap-4 h-full text-right">
-      <div class="text-xl font-black text-white tracking-wider" id="live-realtime-clock">00:00:00</div>
-      <img src="https://lh3.googleusercontent.com/d/1UHSI3CLB0YCZ7uQ3O0sVIGMrVeK7qrK0=s1000" alt="Rekap Andalan" class="h-12 object-contain">
+      <div class="text-lg lg:text-xl font-black text-white tracking-wider" id="live-realtime-clock">00:00:00</div>
+      <img src="https://lh3.googleusercontent.com/d/1UHSI3CLB0YCZ7uQ3O0sVIGMrVeK7qrK0=s1000" alt="Rekap Andalan" class="h-10 object-contain">
     </div>
   </header>
 
@@ -136,68 +133,82 @@
   <main class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4 no-scroll pb-1">
     
     <!-- ==================== KOLOM SMP ==================== -->
-    <div class="flex flex-col h-full bg-brand-800/30 rounded-2xl border border-white/5 p-2 lg:p-3 shadow-xl">
+    <div class="flex flex-col h-full bg-brand-800/30 rounded-2xl border border-white/5 p-2.5 shadow-xl">
       <h2 class="text-center text-base lg:text-lg font-black text-white tracking-[0.1em] uppercase mb-2 shrink-0">SMP / MTs</h2>
       
-      <!-- HEADER TABEL SMP -->
-      <div class="flex items-center text-[8px] lg:text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 w-full gap-1">
-         <div class="w-[75px] sm:w-[85px] lg:w-[100px] shrink-0">RANK</div>
-         <div class="flex-1 text-center">NO. TAMPIL</div>
-         <div class="w-[14px] shrink-0"></div> <!-- Ruang Indikator -->
-         <div class="w-[30px] sm:w-[35px] shrink-0 text-right pr-1">TOTAL</div>
-      </div>
-
-      <!-- PODIUM TOP 3 SMP -->
+      <!-- PODIUM TOP 3 SMP (Tanpa Header Tabel di Atasnya) -->
       <div id="podium-smp" class="grid grid-cols-3 gap-2 mb-2 shrink-0"></div>
       
       <!-- LIST SISA SMP (Kiri 7, Kanan 6) -->
-      <div class="flex-1 flex min-h-0 gap-2 border-t border-white/5 pt-1.5">
-         <div id="list-smp-col1" class="flex-1 no-scroll flex flex-col gap-1 relative"></div>
-         <div id="list-smp-col2" class="flex-1 no-scroll flex flex-col gap-1 relative"></div>
+      <div class="flex-1 flex min-h-0 gap-2.5 pt-1 border-t border-white/5">
+         
+         <!-- KOLOM KIRI (7 Baris) -->
+         <div class="flex-1 flex flex-col min-h-0">
+            <!-- Header Tabel Spesifik untuk Kolom Kiri -->
+            <div class="flex items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1.5 shrink-0 bg-white/5 rounded py-1">
+               <div class="w-[95px] shrink-0">RANK</div>
+               <div class="flex-1 text-center pr-3">NO. TAMPIL</div>
+               <div class="w-[35px] shrink-0 text-right">TOTAL</div>
+            </div>
+            <div id="list-smp-col1" class="flex-1 no-scroll flex flex-col gap-1 relative"></div>
+         </div>
+
+         <!-- KOLOM KANAN (6 Baris) -->
+         <div class="flex-1 flex flex-col min-h-0">
+            <!-- Header Tabel Spesifik untuk Kolom Kanan -->
+            <div class="flex items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1.5 shrink-0 bg-white/5 rounded py-1">
+               <div class="w-[95px] shrink-0">RANK</div>
+               <div class="flex-1 text-center pr-3">NO. TAMPIL</div>
+               <div class="w-[35px] shrink-0 text-right">TOTAL</div>
+            </div>
+            <div id="list-smp-col2" class="flex-1 no-scroll flex flex-col gap-1 relative"></div>
+         </div>
+
       </div>
     </div>
 
     <!-- ==================== KOLOM SMA ==================== -->
-    <div class="flex flex-col h-full bg-brand-800/30 rounded-2xl border border-white/5 p-2 lg:p-3 shadow-xl">
+    <div class="flex flex-col h-full bg-brand-800/30 rounded-2xl border border-white/5 p-2.5 shadow-xl">
       <h2 class="text-center text-base lg:text-lg font-black text-white tracking-[0.1em] uppercase mb-2 shrink-0">SMA / SMK / MA</h2>
       
-      <!-- HEADER TABEL SMA -->
-      <div class="flex items-center text-[8px] lg:text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 w-full gap-2 lg:gap-3">
-         <!-- Header Kiri -->
-         <div class="flex-1 flex items-center gap-1">
-            <div class="w-[75px] sm:w-[85px] lg:w-[100px] shrink-0">RANK</div>
-            <div class="flex-1 text-center">NO. TAMPIL</div>
-            <div class="w-[14px] shrink-0"></div>
-            <div class="w-[30px] sm:w-[35px] shrink-0 text-right pr-1">TOTAL</div>
-         </div>
-         <!-- Header Kanan -->
-         <div class="flex-1 flex items-center gap-1">
-            <div class="w-[75px] sm:w-[85px] lg:w-[100px] shrink-0">RANK</div>
-            <div class="flex-1 text-center">NO. TAMPIL</div>
-            <div class="w-[14px] shrink-0"></div>
-            <div class="w-[30px] sm:w-[35px] shrink-0 text-right pr-1">TOTAL</div>
-         </div>
-      </div>
-
-      <!-- PODIUM TOP 3 SMA -->
+      <!-- PODIUM TOP 3 SMA (Tanpa Header Tabel di Atasnya) -->
       <div id="podium-sma" class="grid grid-cols-3 gap-2 mb-2 shrink-0"></div>
       
       <!-- LIST SISA SMA (Kiri 15, Kanan 15) -->
-      <div class="flex-1 flex min-h-0 gap-2 border-t border-white/5 pt-1.5">
-         <div id="list-sma-col1" class="flex-1 no-scroll flex flex-col gap-[3px] relative"></div>
-         <div id="list-sma-col2" class="flex-1 no-scroll flex flex-col gap-[3px] relative"></div>
+      <div class="flex-1 flex min-h-0 gap-2.5 pt-1 border-t border-white/5">
+         
+         <!-- KOLOM KIRI (15 Baris) -->
+         <div class="flex-1 flex flex-col min-h-0">
+            <!-- Header Tabel Spesifik untuk Kolom Kiri -->
+            <div class="flex items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 bg-white/5 rounded py-0.5">
+               <div class="w-[95px] shrink-0">RANK</div>
+               <div class="flex-1 text-center pr-3">NO. TAMPIL</div>
+               <div class="w-[35px] shrink-0 text-right">TOTAL</div>
+            </div>
+            <div id="list-sma-col1" class="flex-1 no-scroll flex flex-col justify-between relative gap-[2px]"></div>
+         </div>
+
+         <!-- KOLOM KANAN (15 Baris) -->
+         <div class="flex-1 flex flex-col min-h-0">
+            <!-- Header Tabel Spesifik untuk Kolom Kanan -->
+            <div class="flex items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 bg-white/5 rounded py-0.5">
+               <div class="w-[95px] shrink-0">RANK</div>
+               <div class="flex-1 text-center pr-3">NO. TAMPIL</div>
+               <div class="w-[35px] shrink-0 text-right">TOTAL</div>
+            </div>
+            <div id="list-sma-col2" class="flex-1 no-scroll flex flex-col justify-between relative gap-[2px]"></div>
+         </div>
+
       </div>
     </div>
 
   </main>
 
-  <!-- TOMBOL SPONSOR MANUAL -->
   <button onclick="showPromo()" class="fixed bottom-3 right-3 opacity-10 hover:opacity-100 bg-white/10 p-2 rounded-full text-white transition-all z-[90]">
     <i class="fa-solid fa-star"></i>
   </button>
 
   <script>
-    // URL API GAS YANG BARU
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzTSP4qFth4q0Ufjbag-uq_WFh2-jHvQ0RY9w4e8oemtdwlw_PPL99z3FZ7Aec1-C4h/exec";
 
     // SPONSOR
@@ -243,10 +254,10 @@
     const tabLimits = { smp: 16, sma: 33 };
     let lastDataSyncTime = 0; let isUpdating = false;
 
+    // Indikator Netral, Naik, Turun
     function getIndicatorData(cat, item, currentIndex) {
-      if (!item || !item.totalNilai || item.totalNilai <= 0) return `<span class="text-slate-500 font-bold text-[10px] md:text-[12px]">—</span>`;
-
-      // Menggunakan Nomor Tampil (noUrut) sebagai identifier mutlak untuk melacak pergerakan Ranking-nya
+      if (!item || !item.totalNilai || item.totalNilai <= 0) return `<span class="text-slate-500 font-bold text-[10px]">—</span>`;
+      
       const teamKey = item.noUrut;
       if (!teamRankTracker[cat]) teamRankTracker[cat] = {};
       const prevData = teamRankTracker[cat][teamKey];
@@ -259,24 +270,24 @@
       }
       teamRankTracker[cat][teamKey] = { rankIndex: currentIndex, status: status };
 
-      if (status === 'up') return `<span class="text-[#10b981] font-black text-[10px] md:text-[12px] leading-none">▲</span>`;
-      if (status === 'down') return `<span class="text-[#ef4444] font-black text-[10px] md:text-[12px] leading-none">▼</span>`;
-      return `<span class="text-slate-500 font-bold text-[10px] md:text-[12px]">—</span>`;
+      if (status === 'up') return `<span class="text-[#10b981] font-black text-[10px] leading-none">▲</span>`;
+      if (status === 'down') return `<span class="text-[#ef4444] font-black text-[10px] leading-none">▼</span>`;
+      return `<span class="text-slate-500 font-bold text-[10px]">—</span>`;
     }
 
-    // Fungsi Pembangun HTML Card (Podium & List)
+    // Builder Card (Podium & List)
     function buildCard(item, cat, actualIndex, isPodium = false) {
       const data = item || { rank: actualIndex+1, totalNilai: '0', noUrut: '-' };
       const indicatorHtml = getIndicatorData(cat, data, actualIndex);
       
-      // Format 2 Digit untuk nomor urut
+      // Nomor 2 Digit
       let displayNo = data.noUrut;
       if (!isNaN(displayNo) && displayNo !== '-' && displayNo > 0 && displayNo < 10) { displayNo = '0' + displayNo; }
       
       const rankStr = data.rank || (actualIndex + 1);
 
       if (isPodium) {
-        let glowClass = 'podium-card px-2 py-1.5 min-h-[46px] flex flex-col justify-between list-item w-full';
+        let glowClass = 'podium-card px-2 py-1.5 h-[48px] flex flex-col justify-between list-item w-full';
         if(actualIndex === 0) glowClass += ' top1-glow';
         if(actualIndex === 1) glowClass += ' top2-glow';
         if(actualIndex === 2) glowClass += ' top3-glow';
@@ -285,45 +296,43 @@
         return `
           <div class="${glowClass}" data-id="${data.noUrut || actualIndex}">
             <div class="flex justify-between items-center w-full px-1">
-               <span class="text-[9px] md:text-[10px] lg:text-[11px] font-bold text-white rank-text uppercase">${trophy} ${rankStr}</span>
+               <span class="text-[10px] font-bold text-white rank-text uppercase">${trophy} ${rankStr}</span>
             </div>
-            <div class="flex justify-between items-center w-full px-1 mt-0.5">
+            <div class="flex justify-between items-center w-full px-1">
                <div class="no-box">
-                  <span class="text-[10px] md:text-xs font-bold text-white leading-none">${displayNo}</span>
+                  <span class="text-[11px] font-bold text-white leading-none">${displayNo}</span>
                </div>
-               <div class="flex items-center gap-1 lg:gap-1.5">
-                  <div class="w-[14px] text-center flex items-center justify-center">${indicatorHtml}</div>
-                  <span class="text-[12px] md:text-[14px] font-black text-[#60a5fa] leading-none">${data.totalNilai || '0'}</span>
+               <div class="flex items-center gap-1.5">
+                  <div class="w-[12px] text-center flex items-center justify-center">${indicatorHtml}</div>
+                  <span class="text-[13px] font-black text-[#60a5fa] leading-none">${data.totalNilai || '0'}</span>
                </div>
             </div>
           </div>
         `;
       }
 
-      // Card Biasa
+      // Card Biasa (List Kolom)
+      // Lebar kolom Rank dipastikan cukup besar w-[95px] agar tidak menimpa kotak nomor
       return `
-        <div class="rank-card px-1.5 lg:px-2 py-[4px] lg:py-1 min-h-[28px] lg:min-h-[32px] flex items-center w-full justify-between gap-1 list-item" data-id="${data.noUrut || actualIndex}">
-          
-          <!-- KIRI: RANK (Lebar diperbesar agar tidak memotong rank nama panjang) -->
-          <div class="w-[75px] sm:w-[85px] lg:w-[100px] shrink-0">
-            <span class="text-[8px] sm:text-[9px] lg:text-[10px] font-bold text-white uppercase rank-text block leading-none">${rankStr}</span>
+        <div class="rank-card px-2 py-1 flex items-center w-full justify-between gap-1 list-item flex-1" data-id="${data.noUrut || actualIndex}">
+          <!-- RANK UTUH -->
+          <div class="w-[95px] shrink-0">
+            <span class="text-[9px] font-bold text-white uppercase rank-text block leading-none">${rankStr}</span>
           </div>
           
-          <!-- TENGAH: NO TAMPIL (Dalam kotak transparan) -->
-          <div class="flex-1 flex justify-center items-center">
+          <!-- TENGAH: NO TAMPIL & INDIKATOR -->
+          <div class="flex-1 flex justify-center items-center gap-1.5 pr-2">
              <div class="no-box">
-                <span class="text-[9px] sm:text-[10px] font-bold text-white leading-none">${displayNo}</span>
+                <span class="text-[10px] font-bold text-white leading-none">${displayNo}</span>
+             </div>
+             <div class="w-[12px] shrink-0 flex items-center justify-center">
+                ${indicatorHtml}
              </div>
           </div>
           
-          <!-- TENGAH-KANAN: INDIKATOR -->
-          <div class="w-[14px] shrink-0 flex items-center justify-center">
-             ${indicatorHtml}
-          </div>
-          
           <!-- KANAN: TOTAL NILAI -->
-          <div class="w-[30px] sm:w-[35px] shrink-0 text-right pr-1">
-            <span class="text-[10px] sm:text-[11px] lg:text-[12px] font-black text-[#60a5fa] leading-none">${data.totalNilai || '0'}</span>
+          <div class="w-[35px] shrink-0 text-right pr-0.5">
+            <span class="text-[11px] font-black text-[#60a5fa] leading-none">${data.totalNilai || '0'}</span>
           </div>
         </div>
       `;

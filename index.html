@@ -7,7 +7,7 @@
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
@@ -16,7 +16,9 @@
         extend: {
           fontFamily: { sans: ['Inter', 'sans-serif'] },
           colors: {
-            brand: { 900: '#0a0a0f', 800: '#11111a', 700: '#1a1a24' }
+            brand: { 900: '#060813', 800: '#0a0d1c', 700: '#11162b', card: '#0f1423' },
+            textprimary: '#e2e8f0',
+            textsecondary: '#64748b'
           }
         }
       }
@@ -24,7 +26,7 @@
   </script>
   <style>
     body {
-      background: radial-gradient(circle at top center, #1a2035 0%, #0a0a0f 50%, #050508 100%);
+      background: radial-gradient(circle at top center, #11162b 0%, #060813 100%);
       color: #e2e8f0;
       height: 100vh;
       overflow: hidden;
@@ -32,375 +34,254 @@
       padding: 0;
     }
 
-    /* --- EFEK KEDIP HALUS (SLOW GLOW) --- */
+    /* --- KEDIP LAYAR HALUS --- */
     .flash-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0);
-      pointer-events: none;
-      z-index: 9999;
+      pointer-events: none; z-index: 9999;
     }
-    .is-flashing {
-      animation: smoothGlow 2.5s ease-out;
-    }
+    .is-flashing { animation: smoothGlow 2.5s ease-out; }
     @keyframes smoothGlow {
       0% { box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0); }
-      30% { box-shadow: inset 0 0 0 40px rgba(255, 255, 255, 0.25); } /* Terang & Halus */
+      30% { box-shadow: inset 0 0 0 40px rgba(255, 255, 255, 0.15); }
       100% { box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0); }
     }
 
-    /* --- FLIP ANIMATION UNTUK BARIS TABEL --- */
-    .list-item {
-      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
-    }
+    /* --- FLIP ANIMATION --- */
+    .list-item { transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease; }
 
-    /* Efek Kaca Antislope */
-    .antislope-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(12px);
+    /* Desain Card sesuai referensi image_441ddc.png */
+    .rank-card {
+      background: rgba(15, 20, 35, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
     }
     
-    .antislope-card:hover {
-      border-color: rgba(96, 165, 250, 0.3);
-      background: rgba(255, 255, 255, 0.06);
+    .podium-card { background: rgba(15, 20, 35, 0.8); border-radius: 12px; }
+    .top1-glow { border: 1px solid rgba(250, 204, 21, 0.3); }
+    .top2-glow { border: 1px solid rgba(148, 163, 184, 0.3); }
+    .top3-glow { border: 1px solid rgba(217, 119, 6, 0.3); }
+
+    /* Kotak Nomor Tampil */
+    .no-box {
+      border: 1px solid rgba(96, 165, 250, 0.4);
+      border-radius: 6px;
+      background: rgba(96, 165, 250, 0.05);
     }
 
-    /* Glow Podium Top 3 */
-    .top1-glow { border-color: rgba(250, 204, 21, 0.5) !important; box-shadow: 0 0 20px rgba(250, 204, 21, 0.15) !important; }
-    .top2-glow { border-color: rgba(148, 163, 184, 0.5) !important; box-shadow: 0 0 20px rgba(148, 163, 184, 0.15) !important; }
-    .top3-glow { border-color: rgba(217, 119, 6, 0.5) !important; box-shadow: 0 0 20px rgba(217, 119, 6, 0.15) !important; }
+    /* Gradasi Teks Judul */
+    .text-gradient { background: linear-gradient(to right, #ffffff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .text-gradient-blue { background: linear-gradient(to right, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-    /* Gradasi Teks */
-    .text-gradient {
-      background: linear-gradient(to right, #ffffff, #94a3b8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .text-gradient-blue {
-      background: linear-gradient(to right, #60a5fa, #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* Animasi Indikator Naik Turun */
-    @keyframes pulseGlow {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.15); opacity: 0.8; }
-    }
-    .animate-glow { animation: pulseGlow 1.8s infinite; }
-    .glow-green { filter: drop-shadow(0 0 6px #22c55e); }
-    .glow-red { filter: drop-shadow(0 0 6px #ef4444); }
-    .glow-yellow { filter: drop-shadow(0 0 6px #f59e0b); }
-
-    /* Menghilangkan scrollbar karena akan dipaskan ke layar */
     .no-scroll { overflow: hidden; }
   </style>
 </head>
-<body class="flex flex-col p-4">
+<body class="flex flex-col p-3 lg:p-4">
 
-  <!-- OVERLAY EFEK GLOW KEDIP -->
   <div id="screen-flash" class="flash-overlay"></div>
 
-  <!-- ========================================================= -->
-  <!-- OVERLAY SPONSOR (TAMPIL TIAP 15 MENIT / TOMBOL MANUAL)    -->
-  <!-- ========================================================= -->
+  <!-- OVERLAY SPONSOR MANUAL / AUTO 15 MNT -->
   <div id="sponsor-overlay" class="fixed inset-0 z-[100] bg-brand-900/95 backdrop-blur-xl flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-700">
-    <h2 class="text-sm font-black text-slate-500 tracking-[0.3em] uppercase mb-12 drop-shadow-md">OUR PROUD SPONSORS</h2>
-    
-    <div id="sponsor-content" class="flex flex-col items-center justify-center text-center transition-opacity duration-500" style="opacity: 0;">
-      <img id="sponsor-img" src="" alt="Sponsor" class="h-40 md:h-56 object-contain mb-8 drop-shadow-[0_0_25px_rgba(255,255,255,0.2)]">
-      <h3 id="sponsor-name" class="text-3xl md:text-5xl font-black text-white tracking-widest uppercase text-gradient mb-4 drop-shadow-lg"></h3>
-      <p id="sponsor-desc" class="text-base md:text-xl text-slate-400 max-w-2xl font-medium tracking-wide drop-shadow-sm"></p>
+    <h2 class="text-sm font-black text-slate-500 tracking-[0.3em] uppercase mb-12">OUR PROUD SPONSORS</h2>
+    <div id="sponsor-content" class="flex flex-col items-center text-center transition-opacity duration-500" style="opacity: 0;">
+      <img id="sponsor-img" src="" alt="Sponsor" class="h-40 md:h-56 object-contain mb-8">
+      <h3 id="sponsor-name" class="text-3xl md:text-5xl font-black text-white tracking-widest uppercase text-gradient mb-4"></h3>
+      <p id="sponsor-desc" class="text-base md:text-xl text-slate-400 font-medium"></p>
     </div>
-
-    <!-- Tombol Tutup -->
     <button onclick="hidePromo()" class="absolute top-8 right-8 text-white/30 hover:text-white/80 text-3xl transition-colors"><i class="fa-solid fa-xmark"></i></button>
   </div>
-  <!-- ========================================================= -->
 
   <!-- HEADER -->
-  <header class="flex items-center justify-between mb-4 antislope-card rounded-2xl p-4 shadow-xl shrink-0 h-24">
+  <header class="flex items-center justify-between mb-4 bg-brand-800/50 border border-white/5 rounded-2xl p-3 shadow-lg shrink-0 h-20">
     <div class="flex items-center gap-4 h-full">
-      <img src="logo-pendekar.png" alt="Logo Pendekar" class="h-16 object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+      <img src="logo-pendekar.png" alt="Logo Pendekar" class="h-12 object-contain">
       <div class="flex flex-col justify-center">
-        <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-3 py-1 mb-1">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span class="text-[10px] font-bold tracking-widest text-emerald-400 uppercase">SYSTEM SYNCED</span>
+        <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-2 py-0.5 mb-1">
+          <span class="relative flex h-1.5 w-1.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span></span>
+          <span class="text-[9px] font-bold tracking-widest text-emerald-400 uppercase">SYSTEM SYNCED</span>
         </div>
-        <div class="text-xs text-slate-400 font-semibold" id="last-update-clock">Last Sync: --:--:-- WIB</div>
+        <div class="text-[10px] text-slate-400 font-semibold" id="last-update-clock">Last Sync: --:--:-- WIB</div>
       </div>
     </div>
 
-    <div class="text-center flex-1 flex flex-col justify-center">
-      <h1 class="text-3xl lg:text-4xl font-black tracking-tight text-gradient drop-shadow-md leading-none">
+    <div class="text-center flex-1">
+      <h1 class="text-2xl lg:text-3xl font-black tracking-tight text-gradient leading-none mb-1">
         LIVE RANK LKBB PENDEKAR <span class="text-gradient-blue">2026</span>
       </h1>
-      <div class="mt-2 text-[10px] font-bold text-slate-400 tracking-[0.2em] uppercase">
-        SUPPORTED BY REKAP ANDALAN
-      </div>
+      <div class="text-[9px] font-bold text-slate-500 tracking-[0.2em] uppercase">SUPPORTED BY REKAP ANDALAN</div>
     </div>
 
-    <div class="flex items-center gap-6 h-full text-right">
-      <div class="text-2xl font-black text-white tracking-wider drop-shadow-md" id="live-realtime-clock">00:00:00</div>
-      <img src="https://lh3.googleusercontent.com/d/1UHSI3CLB0YCZ7uQ3O0sVIGMrVeK7qrK0=s1000" alt="Rekap Andalan" class="h-16 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">
+    <div class="flex items-center gap-4 h-full text-right">
+      <div class="text-xl font-black text-white tracking-wider" id="live-realtime-clock">00:00:00</div>
+      <img src="https://lh3.googleusercontent.com/d/1UHSI3CLB0YCZ7uQ3O0sVIGMrVeK7qrK0=s1000" alt="Rekap Andalan" class="h-12 object-contain">
     </div>
   </header>
 
-  <!-- KONTEN UTAMA: 2 KOLOM BESAR (SMP & SMA) -->
-  <main class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 no-scroll pb-2">
+  <!-- KONTEN UTAMA: 2 KOLOM (SMP & SMA) -->
+  <main class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 no-scroll pb-1">
     
     <!-- ==================== KOLOM SMP ==================== -->
-    <div class="flex flex-col h-full bg-brand-800/40 rounded-3xl border border-white/5 p-4 shadow-2xl">
-      <h2 class="text-center text-xl font-black text-white tracking-[0.15em] uppercase mb-4 antislope-card rounded-xl py-2 shrink-0">
-        SMP / MTs
-      </h2>
-      <!-- PODIUM TOP 3 SMP -->
-      <div id="podium-smp" class="grid grid-cols-3 gap-3 mb-4 shrink-0"></div>
+    <div class="flex flex-col h-full bg-brand-800/30 rounded-2xl border border-white/5 p-3 shadow-xl">
+      <h2 class="text-center text-lg font-black text-white tracking-[0.1em] uppercase mb-3 shrink-0">SMP / MTs</h2>
       
-      <!-- LIST SISA SMP (1 KOLOM) -->
-      <div class="flex-1 flex flex-col min-h-0 border-t border-white/10 pt-3">
-         <!-- Header Tabel SMP -->
-         <div class="flex items-center text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-2 shrink-0">
-            <div class="w-12">RANK</div>
-            <div class="w-6 text-center"></div>
-            <div class="flex-1 text-center">NO TAMPIL</div>
-            <div class="w-16 text-right">TOTAL</div>
-         </div>
-         <!-- Isi List SMP -->
-         <div id="list-smp" class="flex-1 no-scroll flex flex-col gap-1.5 relative"></div>
+      <!-- HEADER TABEL SMP -->
+      <div class="flex items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 w-full justify-between">
+         <div class="w-16">RANK</div>
+         <div class="text-center pr-6">NO.</div>
+         <div class="w-12 text-right">TOTAL</div>
+      </div>
+
+      <!-- PODIUM TOP 3 SMP (Stack ke bawah sesuai referensi pertama, namun disejajarkan horizontal untuk 3 besar) -->
+      <!-- Berdasarkan percakapan sebelumnya anda ingin sejajar, saya biarkan sejajar 3 di atas -->
+      <div id="podium-smp" class="grid grid-cols-3 gap-2 mb-3 shrink-0"></div>
+      
+      <!-- LIST SISA SMP (Dibagi Kiri 7, Kanan 6) -->
+      <div class="flex-1 flex min-h-0 gap-3 border-t border-white/5 pt-2">
+         <div id="list-smp-col1" class="flex-1 no-scroll flex flex-col gap-1 relative"></div>
+         <div id="list-smp-col2" class="flex-1 no-scroll flex flex-col gap-1 relative"></div>
       </div>
     </div>
 
     <!-- ==================== KOLOM SMA ==================== -->
-    <div class="flex flex-col h-full bg-brand-800/40 rounded-3xl border border-white/5 p-4 shadow-2xl">
-      <h2 class="text-center text-xl font-black text-white tracking-[0.15em] uppercase mb-4 antislope-card rounded-xl py-2 shrink-0">
-        SMA / SMK / MA
-      </h2>
-      <!-- PODIUM TOP 3 SMA -->
-      <div id="podium-sma" class="grid grid-cols-3 gap-3 mb-4 shrink-0"></div>
+    <div class="flex flex-col h-full bg-brand-800/30 rounded-2xl border border-white/5 p-3 shadow-xl">
+      <h2 class="text-center text-lg font-black text-white tracking-[0.1em] uppercase mb-3 shrink-0">SMA / SMK / MA</h2>
       
-      <!-- LIST SISA SMA (2 KOLOM SEJAJAR) -->
-      <div class="flex-1 flex min-h-0 border-t border-white/10 pt-3 gap-4">
-         
-         <!-- Kolom Kiri SMA -->
-         <div class="flex-1 flex flex-col min-h-0">
-           <div class="flex items-center text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-2 shrink-0">
-              <div class="w-10">RANK</div>
-              <div class="w-6 text-center"></div>
-              <div class="flex-1 text-center">NO TAMPIL</div>
-              <div class="w-12 text-right">TOTAL</div>
-           </div>
-           <div id="list-sma-col1" class="flex-1 no-scroll flex flex-col gap-1 relative"></div>
+      <div class="flex items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 w-full justify-between">
+         <!-- Dua set header karena 2 kolom -->
+         <div class="w-[48%] flex justify-between">
+            <div class="w-16">RANK</div>
+            <div class="text-center pr-6">NO.</div>
+            <div class="w-12 text-right">TOTAL</div>
          </div>
-
-         <!-- Garis Pemisah Tengah -->
-         <div class="w-px bg-white/5 h-full rounded-full"></div>
-
-         <!-- Kolom Kanan SMA -->
-         <div class="flex-1 flex flex-col min-h-0">
-           <div class="flex items-center text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-2 shrink-0">
-              <div class="w-10">RANK</div>
-              <div class="w-6 text-center"></div>
-              <div class="flex-1 text-center">NO TAMPIL</div>
-              <div class="w-12 text-right">TOTAL</div>
-           </div>
-           <div id="list-sma-col2" class="flex-1 no-scroll flex flex-col gap-1 relative"></div>
+         <div class="w-[48%] flex justify-between">
+            <div class="w-16">RANK</div>
+            <div class="text-center pr-6">NO.</div>
+            <div class="w-12 text-right">TOTAL</div>
          </div>
+      </div>
 
+      <!-- PODIUM TOP 3 SMA -->
+      <div id="podium-sma" class="grid grid-cols-3 gap-2 mb-3 shrink-0"></div>
+      
+      <!-- LIST SISA SMA (Kiri 15, Kanan 15) -->
+      <div class="flex-1 flex min-h-0 gap-3 border-t border-white/5 pt-2">
+         <div id="list-sma-col1" class="flex-1 no-scroll flex flex-col gap-1 relative"></div>
+         <div id="list-sma-col2" class="flex-1 no-scroll flex flex-col gap-1 relative"></div>
       </div>
     </div>
 
   </main>
 
-  <!-- TOMBOL TRANSPARAN MUNCULKAN SPONSOR MANUAL -->
-  <button onclick="showPromo()" class="fixed bottom-3 right-3 opacity-10 hover:opacity-100 bg-white/10 p-3 rounded-full text-white transition-all z-[90]">
-    <i class="fa-solid fa-star"></i>
-  </button>
+  <button onclick="showPromo()" class="fixed bottom-3 right-3 opacity-10 hover:opacity-100 bg-white/10 p-2 rounded-full text-white transition-all z-[90]"><i class="fa-solid fa-star"></i></button>
 
   <script>
-    // ⚠️ MASUKKAN LINK DEPLOY GOOGLE APPS SCRIPT YANG BARU DI SINI
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzTSP4qFth4q0Ufjbag-uq_WFh2-jHvQ0RY9w4e8oemtdwlw_PPL99z3FZ7Aec1-C4h/exec";
+    // ⚠️ GANTI DENGAN LINK WEB APP GAS ANDA
+    const GAS_API_URL = "MASUKKAN_LINK_DEPLOY_BARU_DI_SINI";
 
-    // =========================================================================
-    // 💼 PENGATURAN LOGO DAN TEKS SPONSOR
-    // Silakan tambah, hapus, atau ubah urutan sponsor di bawah ini.
-    // =========================================================================
     const sponsorData = [
-      {
-        logo: "https://lh3.googleusercontent.com/d/185LBG7napo7sSUDR29NBOi179fN1dbep=s1000",
-        nama: "TJOBRUT STORE",
-        deskripsi: "Pusat Atribut Paskibra Terlengkap dan Termurah"
-      },
-      {
-        logo: "https://lh3.googleusercontent.com/d/1S8ycvcUE99tn-w7TKXPJ5lRlbWowuwIb=s1000",
-        nama: "COSMO ATRIBUT",
-        deskripsi: "" // Biarkan string kosong jika tidak ada deskripsi
-      }
+      { logo: "https://lh3.googleusercontent.com/d/185LBG7napo7sSUDR29NBOi179fN1dbep=s1000", nama: "TJOBRUT STORE", deskripsi: "Pusat Atribut Paskibra Terlengkap dan Termurah" },
+      { logo: "https://lh3.googleusercontent.com/d/1S8ycvcUE99tn-w7TKXPJ5lRlbWowuwIb=s1000", nama: "COSMO ATRIBUT", deskripsi: "" }
     ];
 
-    let promoTimer = null;
-    let promoIsActive = false;
-
+    let promoTimer = null; let promoIsActive = false;
     function showPromo() {
       if(sponsorData.length === 0 || promoIsActive) return;
       promoIsActive = true;
-      
-      const overlay = document.getElementById('sponsor-overlay');
-      const content = document.getElementById('sponsor-content');
-      const imgEl = document.getElementById('sponsor-img');
-      const nameEl = document.getElementById('sponsor-name');
-      const descEl = document.getElementById('sponsor-desc');
-
-      overlay.classList.remove('opacity-0', 'pointer-events-none');
-      overlay.classList.add('opacity-100');
-
+      const overlay = document.getElementById('sponsor-overlay'); const content = document.getElementById('sponsor-content');
+      overlay.classList.remove('opacity-0', 'pointer-events-none'); overlay.classList.add('opacity-100');
       let idx = 0;
       function showNextSponsor() {
-        if(idx >= sponsorData.length || !promoIsActive) {
-          hidePromo();
-          return;
-        }
-
-        // Fade Out konten saat ini
+        if(idx >= sponsorData.length || !promoIsActive) { hidePromo(); return; }
         content.style.opacity = 0;
-        
         setTimeout(() => {
-          // Ganti Konten
-          imgEl.src = sponsorData[idx].logo;
-          nameEl.innerText = sponsorData[idx].nama;
-          descEl.innerText = sponsorData[idx].deskripsi;
-          descEl.style.display = sponsorData[idx].deskripsi ? "block" : "none";
-
-          // Fade In konten baru
-          content.style.opacity = 1;
-          idx++;
-          
-          promoTimer = setTimeout(showNextSponsor, 5000); // 5 Detik per sponsor
+          document.getElementById('sponsor-img').src = sponsorData[idx].logo;
+          document.getElementById('sponsor-name').innerText = sponsorData[idx].nama;
+          const descEl = document.getElementById('sponsor-desc');
+          descEl.innerText = sponsorData[idx].deskripsi; descEl.style.display = sponsorData[idx].deskripsi ? "block" : "none";
+          content.style.opacity = 1; idx++;
+          promoTimer = setTimeout(showNextSponsor, 5000);
         }, 500);
       }
-      
       showNextSponsor();
     }
-
     function hidePromo() {
-      promoIsActive = false;
-      clearTimeout(promoTimer);
+      promoIsActive = false; clearTimeout(promoTimer);
       const overlay = document.getElementById('sponsor-overlay');
-      overlay.classList.remove('opacity-100');
-      overlay.classList.add('opacity-0', 'pointer-events-none');
+      overlay.classList.remove('opacity-100'); overlay.classList.add('opacity-0', 'pointer-events-none');
     }
-
-    // Auto-tampil sponsor tiap 15 Menit
     setInterval(showPromo, 15 * 60 * 1000);
-    // =========================================================================
 
     let liveData = { smp: [], sma: [] };
     let previousFullSignature = { smp: "", sma: "" };
     let teamRankTracker = { smp: {}, sma: {} };
     const tabLimits = { smp: 16, sma: 33 };
-    let lastDataSyncTime = 0;
-    let isUpdating = false;
+    let lastDataSyncTime = 0; let isUpdating = false;
 
     function isCategoryComplete(cat) {
-      const limit = tabLimits[cat];
-      const items = (liveData[cat] || []).slice(0, limit);
+      const limit = tabLimits[cat]; const items = (liveData[cat] || []).slice(0, limit);
       if (items.length < limit) return false;
       return items.every(item => item.totalNilai && item.totalNilai > 0);
     }
 
     function getIndicatorData(cat, item, currentIndex) {
-      if (!item || !item.totalNilai || item.totalNilai <= 0) return `<span class="w-6"></span>`;
+      // Sesuai gambar, jika nilai 0 atau kosong, beri tanda strip (—) warna abu-abu
+      if (!item || !item.totalNilai || item.totalNilai <= 0) return `<span class="text-slate-500 font-bold text-xs">—</span>`;
 
       const teamKey = item.noUrut || item.rank || `item-${currentIndex}`;
       const now = Date.now();
-
       if (!teamRankTracker[cat]) teamRankTracker[cat] = {};
       const prevData = teamRankTracker[cat][teamKey];
 
-      let status = 'up'; 
-      let lastChangeTime = now;
-
+      let status = 'up'; let lastChangeTime = now;
       if (prevData !== undefined) {
-        if (currentIndex < prevData.rankIndex) {
-          status = 'up'; lastChangeTime = now;
-        } else if (currentIndex > prevData.rankIndex) {
-          status = 'down'; lastChangeTime = now;
-        } else {
-          status = prevData.status || 'same';
-          lastChangeTime = prevData.lastChangeTime || now;
-        }
+        if (currentIndex < prevData.rankIndex) { status = 'up'; lastChangeTime = now; } 
+        else if (currentIndex > prevData.rankIndex) { status = 'down'; lastChangeTime = now; } 
+        else { status = prevData.status || 'same'; lastChangeTime = prevData.lastChangeTime || now; }
       }
-
       teamRankTracker[cat][teamKey] = { rankIndex: currentIndex, status: status, lastChangeTime: lastChangeTime };
       
-      // Jika kategori selesai, indicator tetap terkunci. Jika belum, hilang setelah 5 menit.
-      if (!isCategoryComplete(cat) && (now - lastChangeTime) > (5 * 60 * 1000)) {
-        return `<span class="w-6"></span>`;
+      if (!isCategoryComplete(cat) && (now - lastChangeTime) > (5 * 60 * 1000)) return `<span class="text-slate-500 font-bold text-xs">—</span>`;
+
+      if (status === 'up') return `<span class="text-[#10b981] font-black text-xs leading-none">▲</span>`;
+      if (status === 'down') return `<span class="text-[#ef4444] font-black text-xs leading-none">▼</span>`;
+      return `<span class="text-slate-500 font-bold text-xs">—</span>`;
+    }
+
+    // Builder untuk card (Digunakan untuk Podium dan List biasa agar seragam sesuai gambar)
+    function buildCard(item, cat, actualIndex, isPodium = false) {
+      const data = item || { rank: actualIndex+1, totalNilai: '0', noUrut: '-' };
+      const indicator = getIndicatorData(cat, data, actualIndex);
+      
+      let containerClass = 'rank-card px-3 py-2 h-[42px] flex items-center justify-between list-item w-full';
+      if (isPodium) {
+        containerClass = 'podium-card px-3 py-2.5 h-[50px] flex items-center justify-between list-item w-full';
+        if(actualIndex === 0) containerClass += ' top1-glow';
+        if(actualIndex === 1) containerClass += ' top2-glow';
+        if(actualIndex === 2) containerClass += ' top3-glow';
       }
 
-      if (status === 'up') return `<span class="text-emerald-400 font-black text-sm animate-glow glow-green w-6 text-center">▲</span>`;
-      if (status === 'down') return `<span class="text-rose-400 font-black text-sm animate-glow glow-red w-6 text-center">▼</span>`;
-      return `<span class="text-amber-400 font-black text-[11px] animate-glow glow-yellow w-6 text-center">■</span>`;
-    }
-
-    function buildPodiumCard(item, i, cat) {
-      const data = item || { rank: i+1, totalNilai: 0, noUrut: '-' };
-      const indicator = getIndicatorData(cat, data, i);
-      
-      let glowClass = 'antislope-card';
-      let trophy = '';
-      if(i === 0) { glowClass += ' top1-glow'; trophy = '🏆'; }
-      if(i === 1) { glowClass += ' top2-glow'; trophy = '🥈'; }
-      if(i === 2) { glowClass += ' top3-glow'; trophy = '🥉'; }
+      // Menambahkan 0 di depan jika nomor urut < 10, persis seperti gambar
+      let displayNo = data.noUrut;
+      if (!isNaN(displayNo) && displayNo !== '-' && displayNo < 10 && displayNo > 0) displayNo = '0' + displayNo;
 
       return `
-        <div class="relative ${glowClass} rounded-2xl p-2 flex flex-col justify-center items-center shadow-lg h-24">
-          <div class="flex items-center justify-between w-full px-2 border-b border-white/10 pb-1 mb-1">
-            <span class="text-sm font-black text-white tracking-wider">${trophy} ${data.rank || (i+1)}</span>
-            ${indicator}
+        <div class="${containerClass}" data-id="${data.noUrut || actualIndex}" style="top: 0px;">
+          <!-- KIRI: RANK -->
+          <div class="w-16 flex justify-start">
+            <span class="text-sm font-bold text-white uppercase truncate">${data.rank || (actualIndex + 1)}</span>
           </div>
           
-          <div class="flex items-end justify-between w-full px-2 mt-1">
-             <div class="flex flex-col">
-                <span class="text-[9px] text-slate-500 uppercase tracking-widest leading-none mb-0.5">NO TAMPIL</span>
-                <span class="text-2xl font-black text-white leading-none">${data.noUrut}</span>
+          <!-- TENGAH: NO TAMPIL + INDIKATOR -->
+          <div class="flex-1 flex items-center justify-center gap-2 pr-6">
+             <div class="no-box px-2 py-0.5 min-w-[28px] text-center">
+                <span class="text-xs font-bold text-white leading-none">${displayNo}</span>
              </div>
-             <div class="flex flex-col items-end">
-                <span class="text-[9px] text-slate-500 uppercase tracking-widest leading-none mb-0.5">TOTAL</span>
-                <span class="text-xl font-black text-blue-400 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)] leading-none">${data.totalNilai || '0'}</span>
-             </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function buildListItemRow(item, cat, actualIndex, isCompact = false) {
-      const indicator = getIndicatorData(cat, item, actualIndex);
-      
-      // Ukuran disesuaikan: Lebih kecil (compact) untuk SMA agar muat 15 baris
-      const rankClass = isCompact ? "w-10 text-sm" : "w-12 text-base";
-      const noTampilClass = isCompact ? "text-xl" : "text-2xl";
-      const totalClass = isCompact ? "w-12 text-base" : "w-16 text-lg";
-      const rowPad = isCompact ? "py-1.5 px-2" : "py-2 px-3";
-
-      return `
-        <div class="flex items-center justify-between antislope-card rounded-xl ${rowPad} list-item relative" 
-             data-id="${item.noUrut || actualIndex}" 
-             style="top: 0px;">
-          
-          <div class="${rankClass} font-black text-slate-400 pl-1">${item.rank || (actualIndex + 1)}</div>
-          <div class="w-6 flex justify-center">${indicator}</div>
-          
-          <div class="flex-1 flex justify-center">
-             <span class="${noTampilClass} font-black text-white leading-none">${item.noUrut || '-'}</span>
+             <div class="w-3 text-center flex items-center justify-center">${indicator}</div>
           </div>
           
-          <div class="${totalClass} text-right pr-1">
-            <span class="font-black text-blue-400 leading-none">${item.totalNilai || '0'}</span>
+          <!-- KANAN: TOTAL NILAI -->
+          <div class="w-12 flex justify-end">
+            <span class="text-sm font-black text-[#60a5fa]">${data.totalNilai || '0'}</span>
           </div>
         </div>
       `;
@@ -410,9 +291,7 @@
       const oldPositions = {};
       const oldNodes = container.querySelectorAll('.list-item');
       oldNodes.forEach(node => { oldPositions[node.dataset.id] = node.getBoundingClientRect().top; });
-
       container.innerHTML = htmlContent;
-
       const newNodes = container.querySelectorAll('.list-item');
       newNodes.forEach(node => {
         const id = node.dataset.id;
@@ -436,15 +315,22 @@
       if (items.length === 0) return;
 
       const top3 = items.slice(0, 3);
-      const remainingItems = items.slice(3);
+      const remainingItems = items.slice(3); // 13 Peserta
 
-      // Podium
-      document.getElementById('podium-smp').innerHTML = buildPodiumCard(top3[0], 0, 'smp') + buildPodiumCard(top3[1], 1, 'smp') + buildPodiumCard(top3[2], 2, 'smp');
+      // Podium Top 3 Sejajar Atas
+      let podiumHtml = '';
+      for(let i=0; i<3; i++) podiumHtml += buildCard(top3[i], 'smp', i, true);
+      document.getElementById('podium-smp').innerHTML = podiumHtml;
 
-      // List 1 Kolom (Standar)
-      let listHtml = '';
-      remainingItems.forEach((item, idx) => { listHtml += buildListItemRow(item, 'smp', idx + 3, false); });
-      applyFlipAnimation(document.getElementById('list-smp'), listHtml);
+      // 13 Sisa dibagi: Kiri (7), Kanan (6)
+      const col1Items = remainingItems.slice(0, 7);
+      const col2Items = remainingItems.slice(7, 13);
+
+      let col1Html = ''; col1Items.forEach((item, idx) => { col1Html += buildCard(item, 'smp', idx + 3, false); });
+      applyFlipAnimation(document.getElementById('list-smp-col1'), col1Html);
+
+      let col2Html = ''; col2Items.forEach((item, idx) => { col2Html += buildCard(item, 'smp', (idx + 3) + 7, false); });
+      applyFlipAnimation(document.getElementById('list-smp-col2'), col2Html);
     }
 
     function renderCategorySMA() {
@@ -452,41 +338,35 @@
       if (items.length === 0) return;
 
       const top3 = items.slice(0, 3);
-      const remainingItems = items.slice(3);
+      const remainingItems = items.slice(3); // 30 Peserta
 
-      // Podium
-      document.getElementById('podium-sma').innerHTML = buildPodiumCard(top3[0], 0, 'sma') + buildPodiumCard(top3[1], 1, 'sma') + buildPodiumCard(top3[2], 2, 'sma');
+      // Podium Top 3 Sejajar Atas
+      let podiumHtml = '';
+      for(let i=0; i<3; i++) podiumHtml += buildCard(top3[i], 'sma', i, true);
+      document.getElementById('podium-sma').innerHTML = podiumHtml;
 
-      // List 2 Kolom (Kiri dan Kanan)
-      const mid = Math.ceil(remainingItems.length / 2);
-      const col1Items = remainingItems.slice(0, mid);
-      const col2Items = remainingItems.slice(mid);
+      // 30 Sisa dibagi: Kiri (15), Kanan (15)
+      const col1Items = remainingItems.slice(0, 15);
+      const col2Items = remainingItems.slice(15, 30);
 
-      let col1Html = '';
-      col1Items.forEach((item, idx) => { col1Html += buildListItemRow(item, 'sma', idx + 3, true); });
+      let col1Html = ''; col1Items.forEach((item, idx) => { col1Html += buildCard(item, 'sma', idx + 3, false); });
       applyFlipAnimation(document.getElementById('list-sma-col1'), col1Html);
 
-      let col2Html = '';
-      col2Items.forEach((item, idx) => { col2Html += buildListItemRow(item, 'sma', (idx + 3) + col1Items.length, true); });
+      let col2Html = ''; col2Items.forEach((item, idx) => { col2Html += buildCard(item, 'sma', (idx + 3) + 15, false); });
       applyFlipAnimation(document.getElementById('list-sma-col2'), col2Html);
     }
 
     function triggerScreenFlash(callback) {
       const flashEl = document.getElementById('screen-flash');
-      flashEl.classList.remove('is-flashing');
-      void flashEl.offsetWidth;
-      flashEl.classList.add('is-flashing');
+      flashEl.classList.remove('is-flashing'); void flashEl.offsetWidth; flashEl.classList.add('is-flashing');
       setTimeout(() => { if(callback) callback(); }, 500); 
     }
 
     function triggerConfetti() {
-      const duration = 3 * 1000;
-      const animationEnd = Date.now() + duration;
-      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+      const duration = 3 * 1000; const animationEnd = Date.now() + duration; const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
       function randomInRange(min, max) { return Math.random() * (max - min) + min; }
       const interval = setInterval(function() {
-        const timeLeft = animationEnd - Date.now();
-        if (timeLeft <= 0) return clearInterval(interval);
+        const timeLeft = animationEnd - Date.now(); if (timeLeft <= 0) return clearInterval(interval);
         const particleCount = 50 * (timeLeft / duration);
         confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
         confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
@@ -494,27 +374,20 @@
     }
 
     function updateClocks() {
-      const now = new Date();
-      document.getElementById('live-realtime-clock').innerText = now.toLocaleTimeString('id-ID', { hour12: false });
+      const now = new Date(); document.getElementById('live-realtime-clock').innerText = now.toLocaleTimeString('id-ID', { hour12: false });
     }
-    setInterval(updateClocks, 1000);
-    updateClocks();
+    setInterval(updateClocks, 1000); updateClocks();
 
     async function fetchData() {
       if(GAS_API_URL === "MASUKKAN_LINK_DEPLOY_BARU_DI_SINI" || isUpdating) return;
       isUpdating = true;
-      
       try {
         const response = await fetch(GAS_API_URL);
         const data = await response.json();
         
-        let hasStructuralChange = false;
-        let hasTop3Change = false;
-
+        let hasStructuralChange = false; let hasTop3Change = false;
         ['smp', 'sma'].forEach(cat => {
-          const limit = tabLimits[cat];
-          const currentItems = (data[cat] || []).slice(0, limit);
-          
+          const limit = tabLimits[cat]; const currentItems = (data[cat] || []).slice(0, limit);
           const fullSig = currentItems.map(item => `${item.rank}:${item.totalNilai}:${item.noUrut}`).join('|');
           if (previousFullSignature[cat] !== fullSig && previousFullSignature[cat] !== "") {
             hasStructuralChange = true;
@@ -532,27 +405,13 @@
         }
 
         if (hasStructuralChange) {
-           triggerScreenFlash(() => {
-              liveData = data;
-              renderCategorySMP();
-              renderCategorySMA();
-              if(hasTop3Change) triggerConfetti();
-           });
+           triggerScreenFlash(() => { liveData = data; renderCategorySMP(); renderCategorySMA(); if(hasTop3Change) triggerConfetti(); });
         } else {
-           liveData = data;
-           renderCategorySMP();
-           renderCategorySMA();
+           liveData = data; renderCategorySMP(); renderCategorySMA();
         }
-
-      } catch (error) {
-        console.error("Gagal sinkronisasi data:", error);
-      } finally {
-        isUpdating = false;
-      }
+      } catch (error) { console.error("Gagal sinkronisasi data:", error); } finally { isUpdating = false; }
     }
-
-    fetchData();
-    setInterval(fetchData, 4000);
+    fetchData(); setInterval(fetchData, 4000);
   </script>
 </body>
 </html>

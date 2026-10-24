@@ -1,228 +1,357 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Live Rank LKBB Pendekar 2026</title>
-<link rel="icon" href="logo/logo-pendekar.png">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<style>
-:root{--gold:#f5c451;--silver:#cfd6e4;--bronze:#d9915b;--up:#34d399;--down:#f87171;--ink:#f4f7ff;--mute:#9aa7c2;--glass:rgba(13,20,36,.7);--line:rgba(255,255,255,.1)}
-*{box-sizing:border-box;margin:0}
-html,body{height:100%}
-/* Foto latar opsional: img/bg.jpg. Jika tidak ada, gradasi dipakai. Lapisan gelap menjaga teks terbaca. */
-body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);display:flex;flex-direction:column;
-background:linear-gradient(rgba(5,8,16,.74),rgba(5,8,16,.9)),url(img/bg.jpg) center/cover fixed,radial-gradient(900px 520px at 12% 0,rgba(79,124,255,.38),transparent),radial-gradient(800px 520px at 92% 100%,rgba(224,72,154,.22),transparent),#05070d}
-header{display:flex;align-items:center;gap:16px;padding:12px 24px}
-.logo{height:clamp(40px,6vh,64px);width:auto}
-h1{font-size:clamp(26px,4vw,50px);font-weight:800;letter-spacing:-.03em;line-height:1}
-.sub{color:var(--mute);font-weight:600;margin-top:4px;font-size:clamp(12px,1.3vw,18px)}
-.meta{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:12px;color:var(--mute)}
-.pill{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:var(--glass);border-radius:999px;padding:6px 12px;color:var(--ink);font-weight:700}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--down)}
-.ok .dot{background:var(--up);animation:pulse 1.6s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.6)}100%{box-shadow:0 0 0 7px rgba(52,211,153,0)}}
-.mono{font-family:'JetBrains Mono',monospace}
-button{font:inherit;cursor:pointer}
-.tabs{display:none;gap:8px;padding:0 14px 10px}
-.tabs button{flex:1;padding:10px;border-radius:999px;border:1px solid var(--line);background:var(--glass);color:var(--mute);font-weight:700}
-.tabs button.on{background:#4f7cff;color:#fff;border-color:#4f7cff}
-main{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:0 24px 6px;overflow:hidden}
-.cat{--ac:#4f7cff;background:var(--glass);border:1px solid var(--line);border-top:3px solid var(--ac);border-radius:18px;padding:12px 16px 14px;backdrop-filter:blur(14px);display:flex;flex-direction:column;min-height:0}
-#cat-sma{--ac:#e0489a}
-.cat h2{font-size:clamp(18px,2vw,26px);font-weight:800;margin-bottom:8px}
-.board{position:relative}
-.slot,.hd,.pp,.chip{position:absolute}
-.hd{display:flex;align-items:center;color:var(--mute);font-size:11px;font-weight:700;text-align:center}
-.hd span{flex:1}.hd i{font-style:normal;text-align:left;padding-left:4px}
-.slot{border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);font-weight:700}
-.slot.pod{border-radius:14px}
-.s0{border-color:var(--gold)}.s1{border-color:var(--silver)}.s2{border-color:var(--bronze)}
-.top{display:flex;align-items:center;justify-content:center;gap:8px;height:50%;padding:0 4px}
-.lbw{display:flex;align-items:center;gap:8px;height:100%;padding-left:6px;overflow:hidden}
-.lb{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.no,.medal{flex:none;width:1.7em;height:1.7em;border-radius:50%;display:grid;place-items:center;font-size:.8em;font-weight:800;background:rgba(255,255,255,.12)}
-.medal{width:1.9em;height:1.9em;color:#14181f;font-size:1em}
-.s0 .medal{background:linear-gradient(#ffe08a,#e0a82e)}.s1 .medal{background:linear-gradient(#f1f5fb,#aab4c6)}.s2 .medal{background:linear-gradient(#f0b283,#bd6f3a)}
-.pp,.chip{display:grid;grid-template-columns:1fr 1fr;align-items:center;text-align:center}
-.pp{opacity:.4;color:var(--mute)}
-.chip{left:0;top:0;border-radius:9px;font-weight:700;background:linear-gradient(90deg,color-mix(in srgb,var(--ac) 60%,#0a1020),color-mix(in srgb,var(--ac) 32%,#0a1020));
-transition:transform .9s cubic-bezier(.65,0,.25,1),width .9s,height .9s,opacity .5s;opacity:0}
-.chip.in{opacity:1}
-.pp.pod span::before,.chip.pod span::before{content:attr(data-c);display:block;font:600 10px 'Plus Jakarta Sans';color:rgba(255,255,255,.7)}
-.chip.mine{outline:2px solid #5eead4;outline-offset:-2px}
-.chip.flash{animation:fl 1.5s}
-@keyframes fl{0%,60%{background:#f5c451;color:#111}}
-.ar{margin-left:5px;font-size:.75em;font-style:normal}.up{color:var(--up)}.dn{color:var(--down)}
-footer{padding:6px 24px 10px;text-align:center;color:var(--mute);font-size:12px}
-footer b{color:var(--ink)}
-#promo{position:fixed;inset:0;z-index:50;background:rgba(5,8,16,.96);display:none;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:24px;text-align:center}
-#promo.on{display:flex}
-#promo .lg{display:flex;flex-wrap:wrap;gap:32px;justify-content:center}
-#promo img{height:clamp(70px,16vh,150px);width:auto;max-width:42vw;object-fit:contain}
-#promo button{position:absolute;top:16px;right:16px;border-radius:50%;width:38px;height:38px;border:1px solid var(--line);background:var(--glass);color:#fff}
-#bar{width:min(420px,70vw);height:4px;background:var(--line);border-radius:4px;overflow:hidden}
-#bar i{display:block;height:100%;background:#4f7cff;transform-origin:left}
-@media (max-width:899px){
-header{flex-wrap:wrap;padding:12px 14px}.meta{flex-direction:row;flex-wrap:wrap;align-items:center;margin-left:0;width:100%;justify-content:space-between}
-.tabs{display:flex}main{grid-template-columns:1fr;padding:0 12px 8px;overflow:auto;display:block}
-.cat{display:none}.cat.on{display:flex}
-}
-@media (prefers-reduced-motion:reduce){.chip{transition:none}.ok .dot{animation:none}}
-</style>
-</head>
-<body>
-<header>
-  <img class="logo" src="logo/logo-pendekar.png" alt="" onerror="this.remove()">
-  <div><h1>Live Rank</h1><div class="sub">LKBB Pendekar 2026</div></div>
-  <div class="meta">
-    <span class="pill" id="conn"><i class="dot"></i><span id="connTx">Menghubungkan</span></span>
-    <span class="mono" id="clock"></span>
-    <span id="upd">Belum ada data tayang</span>
-  </div>
-</header>
-<div class="tabs" id="tabs"></div>
-<main id="main"></main>
-<footer>REKAP BY <b>REKAP ANDALAN</b> &nbsp;|&nbsp; Tjobrut.store | cosmoatribut</footer>
-<div id="promo"><button onclick="hidePromo()" aria-label="Tutup">&times;</button>
-  <div class="lg" id="plogos"></div>
-  <div style="font-weight:800;letter-spacing:.04em">REKAP BY REKAP ANDALAN</div>
-  <div id="bar"><i></i></div>
-</div>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIVERANK LKBB PENDEKAR 2026</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-<script>
-/* ====== PENGATURAN ====== */
-const CFG={
-  API:'GANTI_DENGAN_URL_WEB_APP_APPS_SCRIPT',   // URL deploy Apps Script (berakhiran /exec)
-  POLL:5000,
-  PROMO_EVERY:15*60*1000, PROMO_SHOW:12000,
-  SPONSORS:['logo/rekap-andalan.png','logo/sponsor-1.png','logo/sponsor-2.png','logo/sponsor-3.png'],
-  CATS:[{k:'smp',t:'SMP/MTs'},{k:'sma',t:'SMA/SMK/MA'}]
-};
-const GAP=10,CG=16,HH=20;
-const $=id=>document.getElementById(id),B={},main=$('main');
-let first=true,last=null,mine=new Set(JSON.parse(localStorage.getItem('lr_mine')||'[]')),tab=localStorage.getItem('lr_tab')||CFG.CATS[0].k;
-CFG.CATS.forEach(c=>{
-  const s=document.createElement('section');s.className='cat';s.id='cat-'+c.k;
-  s.innerHTML=`<h2>${c.t}</h2><div class="board" id="bd-${c.k}"><div class="sl"></div><div class="hdr"></div></div>`;
-  main.appendChild(s);
-  B[c.k]={labels:[],n:0,chips:{},pos:{},val:{},arrow:{},top:undefined,rects:[]};
-  const t=document.createElement('button');t.textContent=c.t;t.dataset.k=c.k;t.onclick=()=>setTab(c.k);$('tabs').appendChild(t);
-});
-function setTab(k){tab=k;localStorage.setItem('lr_tab',k);
-  document.querySelectorAll('.cat').forEach(e=>e.classList.toggle('on',e.id==='cat-'+k));
-  document.querySelectorAll('#tabs button').forEach(e=>e.classList.toggle('on',e.dataset.k===k));layout()}
-
-/* ====== TATA LETAK: podium 3 teratas + tabel dua kolom, tanpa scroll di desktop ====== */
-function place(el,r){
-  let x,y,w,h;
-  if(r.pod){x=r.x+6;y=r.y+r.h*.5;w=r.w-12;h=r.h*.5-6;el.style.fontSize=Math.max(13,Math.min(24,r.h*.2))+'px'}
-  else{x=r.x+r.w*r.lw;y=r.y;w=r.w*(1-r.lw);h=r.h;el.style.fontSize=r.fs+'px'}
-  el.classList.toggle('pod',!!r.pod);
-  el.style.width=w+'px';el.style.height=h+'px';el.style.transform=`translate(${x}px,${y}px)`;
-}
-function layout(){
-  const mobile=innerWidth<900;
-  CFG.CATS.forEach(c=>{
-    const b=B[c.k],bd=$('bd-'+c.k);if(!b.n)return;
-    const n=b.n,rest=Math.max(0,n-3),per=mobile?rest:Math.ceil(rest/2);
-    const w=bd.clientWidth||(main.clientWidth-(mobile?24:48)-32);
-    let ph,rh;
-    if(mobile){ph=100;rh=44}
-    else{const av=main.getBoundingClientRect().bottom-bd.getBoundingClientRect().top-16;
-      ph=Math.max(76,Math.min(124,av*.15));rh=Math.max(20,Math.min(50,Math.floor((av-ph-GAP-HH)/Math.max(per,1))))}
-    const lw=mobile?.46:.4,colw=mobile?w:(w-CG)/2,pw=(w-2*GAP)/3,y0=ph+GAP+HH,fs=Math.max(11,Math.min(19,rh*.44));
-    b.rects=[];
-    for(let i=0;i<n;i++){
-      if(i<3)b.rects.push({pod:1,x:i*(pw+GAP),y:0,w:pw,h:ph});
-      else{const j=i-3,col=mobile?0:Math.floor(j/per),row=j-col*per;
-        b.rects.push({x:col*(colw+CG),y:y0+row*rh,w:colw,h:rh,lw,fs})}
-    }
-    bd.style.height=(y0+per*rh)+'px';
-    // slot statis (label peringkat + placeholder nilai 0)
-    bd.querySelector('.sl').innerHTML=b.rects.map((r,i)=>{
-      const st=`left:${r.x}px;top:${r.y}px;width:${r.w}px;height:${r.h}px`,L=b.labels[i];
-      if(r.pod)return `<div class="slot pod s${i}" style="${st};font-size:${Math.max(12,Math.min(20,r.h*.17))}px"><div class="top"><span class="medal">${i+1}</span><span class="lb">${L}</span></div>
-        <div class="pp pod" style="left:6px;right:6px;bottom:6px;height:${r.h*.5-6}px;font-size:${Math.max(13,Math.min(24,r.h*.2))}px"><span data-c="No. tampil">–</span><span data-c="Nilai">0</span></div></div>`;
-      return `<div class="slot" style="${st};font-size:${fs}px"><div class="lbw" style="width:${lw*100}%"><span class="no">${i+1}</span><span class="lb">${L}</span></div>
-        <div class="pp" style="left:${lw*100}%;right:0;top:0;height:100%"><span>–</span><span>0</span></div></div>`}).join('');
-    // judul kolom tabel
-    const cols=rest?(mobile?1:(per<rest?2:1)):0;let h='';
-    for(let k=0;k<cols;k++){const x=k*(colw+CG);
-      h+=`<div class="hd" style="left:${x}px;top:${ph+GAP}px;width:${colw}px;height:${HH}px"><i style="width:${lw*100}%">Peringkat</i><span>No. tampil</span><span>Nilai</span></div>`}
-    bd.querySelector('.hdr').innerHTML=h;
-    for(const key in b.chips)place(b.chips[key],b.rects[b.pos[key]]);
-  });
-}
-addEventListener('resize',layout);addEventListener('load',layout);
-
-/* ====== RENDER ====== */
-function render(snap){
-  CFG.CATS.forEach(c=>{
-    const d=snap[c.k]||{labels:[],items:[]},b=B[c.k],bd=$('bd-'+c.k);
-    if(d.labels.join('|')!==b.labels.join('|')){
-      for(const k in b.chips)b.chips[k].remove();
-      b.labels=d.labels;b.n=d.labels.length;b.chips={};b.pos={};b.val={};layout()}
-    const prevCount=Object.keys(b.chips).length,seen=new Set();
-    d.items.forEach((it,i)=>{
-      const key=String(it.tampil);seen.add(key);
-      let el=b.chips[key];const isNew=!el,r=b.rects[i];
-      if(isNew){
-        el=b.chips[key]=document.createElement('div');
-        el.innerHTML='<span class="t mono" data-c="No. tampil"></span><span class="v mono" data-c="Nilai"></span>';
-        el.onclick=()=>{const m=c.k+':'+key;mine.has(m)?mine.delete(m):mine.add(m);localStorage.setItem('lr_mine',JSON.stringify([...mine]));render(last)};
-        el.className='chip';el.style.transition='none';
-        // peserta baru muncul dari slot kosong pertama, lalu bergeser naik ke posisinya
-        place(el,b.rects[first?i:Math.min(prevCount,b.n-1)]);
-        bd.appendChild(el);void el.offsetWidth;el.style.transition='';
-        if(!first&&i<prevCount)b.arrow[key]={d:'up',until:Date.now()+3e5};
-      }else{
-        const p=b.pos[key];
-        if(p!==undefined&&p!==i)b.arrow[key]={d:i<p?'up':'dn',until:Date.now()+3e5};
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: { 900: '#0a0a0f', 800: '#11111a', 700: '#1a1a24' }
+          }
+        }
       }
-      b.pos[key]=i;
-      const mk=mine.has(c.k+':'+key),a=b.arrow[key];
-      el.classList.toggle('mine',mk);el.classList.toggle('r'+i,i<3);
-      el.querySelector('.t').textContent=(mk?'★ ':'')+key;
-      el.querySelector('.v').innerHTML=it.total+(a&&a.until>Date.now()?`<i class="ar ${a.d}">${a.d==='up'?'▲':'▼'}</i>`:'');
-      if(!isNew&&b.val[key]!==undefined&&b.val[key]!==it.total){el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash')}
-      b.val[key]=it.total;
-      requestAnimationFrame(()=>requestAnimationFrame(()=>{place(el,r);el.classList.add('in')}));
-    });
-    for(const key in b.chips)if(!seen.has(key)){b.chips[key].remove();delete b.chips[key];delete b.pos[key];delete b.val[key]}
-    const top=d.items[0]?d.items[0].tampil:null;
-    if(!first&&b.top!==undefined&&top!==null&&top!==b.top&&window.confetti)confetti({particleCount:140,spread:80,origin:{y:.35}});
-    b.top=top;
-  });
-  $('upd').textContent=snap.updatedAt?'Update terakhir '+new Date(snap.updatedAt).toLocaleTimeString('id-ID'):'Belum ada data tayang';
-  first=false;
-}
+    }
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at top center, #1a2035 0%, #0a0a0f 50%, #050508 100%);
+      color: #e2e8f0;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-/* ====== AMBIL DATA ====== */
-function setConn(ok){$('conn').classList.toggle('ok',ok);$('connTx').textContent=ok?'Terhubung':'Terputus, mencoba lagi'}
-async function pull(){
-  try{
-    const r=await fetch(CFG.API+'?t='+Date.now(),{cache:'no-store'});const s=await r.json();
-    if(!s.smp)throw 0;
-    localStorage.setItem('lr_snap',JSON.stringify(s));last=s;setConn(true);render(s);
-  }catch(e){setConn(false)}
-}
-setTab(tab);
-try{const c=localStorage.getItem('lr_snap');if(c){last=JSON.parse(c);render(last)}}catch(e){}
-pull();
-setInterval(()=>{if(!document.hidden)pull()},CFG.POLL);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull()});
-setInterval(()=>{$('clock').textContent=new Date().toLocaleTimeString('id-ID')},1000);
-/* ====== OVERLAY SPONSOR ====== */
-$('plogos').innerHTML=CFG.SPONSORS.map(s=>`<img src="${s}" alt="" onerror="this.remove()">`).join('');
-let pt;
-function showPromo(){$('promo').classList.add('on');
-  document.querySelector('#bar i').animate([{transform:'scaleX(1)'},{transform:'scaleX(0)'}],{duration:CFG.PROMO_SHOW,fill:'forwards'});
-  clearTimeout(pt);pt=setTimeout(hidePromo,CFG.PROMO_SHOW)}
-function hidePromo(){$('promo').classList.remove('on');clearTimeout(pt)}
-setInterval(showPromo,CFG.PROMO_EVERY);
-addEventListener('keydown',e=>{if(e.ctrlKey&&e.shiftKey&&e.key.toLowerCase()==='p')showPromo()});
-</script>
+    /* Efek Kaca / Glassmorphism Antislope */
+    .antislope-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+    }
+    
+    .antislope-card:hover {
+      border-color: rgba(96, 165, 250, 0.4);
+      box-shadow: 0 0 20px rgba(96, 165, 250, 0.1);
+    }
+
+    /* Efek Glow Spesial untuk Top 3 */
+    .top1-glow { border-color: rgba(250, 204, 21, 0.5) !important; box-shadow: 0 0 25px rgba(250, 204, 21, 0.15) !important; }
+    .top2-glow { border-color: rgba(148, 163, 184, 0.5) !important; box-shadow: 0 0 25px rgba(148, 163, 184, 0.15) !important; }
+    .top3-glow { border-color: rgba(217, 119, 6, 0.5) !important; box-shadow: 0 0 25px rgba(217, 119, 6, 0.15) !important; }
+
+    /* Gradasi Teks */
+    .text-gradient {
+      background: linear-gradient(to right, #ffffff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .text-gradient-blue {
+      background: linear-gradient(to right, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Animasi Pendar Indikator Naik Turun */
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+    .animate-glow { animation: pulseGlow 1.8s infinite; }
+    .glow-green { filter: drop-shadow(0 0 8px #22c55e); }
+    .glow-red { filter: drop-shadow(0 0 8px #ef4444); }
+    .glow-yellow { filter: drop-shadow(0 0 8px #f59e0b); }
+
+    /* Custom Scrollbar disembunyikan agar bersih */
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="flex flex-col p-4">
+
+  <!-- HEADER -->
+  <header class="flex items-center justify-between mb-4 antislope-card rounded-2xl p-4 shadow-2xl">
+    <div class="flex items-center gap-4">
+      <!-- Menggunakan logo lokal dari github sesuai instruksi -->
+      <img src="logo-pendekar.png" alt="Logo Pendekar" class="h-14 opacity-90 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+      <div>
+        <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-3 py-1 mb-1 shadow-inner">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span class="text-[9px] font-bold tracking-widest text-emerald-400 uppercase">SYSTEM SYNCED</span>
+        </div>
+        <div class="text-xs text-slate-400 font-semibold" id="last-update-clock">Last Sync: --:--:-- WIB</div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <h1 class="text-3xl md:text-4xl font-black tracking-tight text-gradient drop-shadow-md">
+        LIVE RANK LKBB PENDEKAR <span class="text-gradient-blue">2026</span>
+      </h1>
+      <p class="text-[10px] font-bold text-slate-400 tracking-[0.2em] uppercase mt-1">
+        SUPPORTED BY REKAP ANDALAN
+      </p>
+    </div>
+
+    <div class="flex items-center gap-4 text-right">
+      <div class="text-xl font-black text-white tracking-wider drop-shadow-md" id="live-realtime-clock">00:00:00</div>
+    </div>
+  </header>
+
+  <!-- KONTEN UTAMA: 2 KOLOM (SMP & SMA) -->
+  <main class="flex-1 grid grid-cols-2 gap-6 overflow-hidden">
+    
+    <!-- KOLOM SMP -->
+    <div class="flex flex-col h-full bg-brand-800/40 rounded-3xl border border-white/5 p-4 overflow-hidden shadow-2xl">
+      <h2 class="text-center text-xl font-black text-white tracking-[0.15em] uppercase mb-4 antislope-card rounded-xl py-2 drop-shadow-sm">
+        KATEGORI SMP / MTs
+      </h2>
+      <div class="flex-1 overflow-hidden flex flex-col" id="card-smp"></div>
+    </div>
+
+    <!-- KOLOM SMA -->
+    <div class="flex flex-col h-full bg-brand-800/40 rounded-3xl border border-white/5 p-4 overflow-hidden shadow-2xl">
+      <h2 class="text-center text-xl font-black text-white tracking-[0.15em] uppercase mb-4 antislope-card rounded-xl py-2 drop-shadow-sm">
+        KATEGORI SMA / SMK / MA
+      </h2>
+      <div class="flex-1 overflow-hidden flex flex-col" id="card-sma"></div>
+    </div>
+
+  </main>
+
+  <script>
+    // ⚠️ MASUKKAN LINK DEPLOY GOOGLE APPS SCRIPT YANG BARU DI SINI
+    const GAS_API_URL = "MASUKKAN_LINK_DEPLOY_BARU_DI_SINI";
+
+    let liveData = { smp: [], sma: [] };
+    let teamRankTracker = { smp: {}, sma: {} };
+    
+    // Batas peserta sesuai instruksi: SMP 16, SMA 33
+    const tabLimits = { smp: 16, sma: 33 };
+    let lastDataSyncTime = 0;
+
+    function isCategoryComplete(cat) {
+      const maxLimit = tabLimits[cat];
+      const items = (liveData[cat] || []).slice(0, maxLimit);
+      if (items.length < maxLimit) return false;
+      return items.every(item => item.totalNilai && item.totalNilai > 0);
+    }
+
+    function getTrendIndicatorHTML(cat, item, currentIndex) {
+      if (!item || !item.totalNilai || item.totalNilai <= 0) return `<span class="w-5"></span>`;
+
+      const teamKey = item.noUrut || item.rank || `item-${currentIndex}`;
+      const now = Date.now();
+
+      if (!teamRankTracker[cat]) teamRankTracker[cat] = {};
+      const prevData = teamRankTracker[cat][teamKey];
+
+      let status = 'up';
+      let lastChangeTime = now;
+
+      if (prevData !== undefined) {
+        if (currentIndex < prevData.rankIndex) {
+          status = 'up'; lastChangeTime = now;
+        } else if (currentIndex > prevData.rankIndex) {
+          status = 'down'; lastChangeTime = now;
+        } else {
+          status = prevData.status || 'same';
+          lastChangeTime = prevData.lastChangeTime || now;
+        }
+      }
+
+      teamRankTracker[cat][teamKey] = { rankIndex: currentIndex, status: status, lastChangeTime: lastChangeTime };
+      const categoryFinished = isCategoryComplete(cat);
+
+      // Sembunyikan indikator jika sudah lewat 5 menit (300.000 ms) dan kategori belum final
+      if (!categoryFinished && (now - lastChangeTime) > (5 * 60 * 1000)) {
+        return `<span class="w-5"></span>`;
+      }
+
+      if (status === 'up') return `<span class="text-emerald-400 font-black text-sm md:text-base animate-glow glow-green w-5 text-center leading-none">▲</span>`;
+      if (status === 'down') return `<span class="text-rose-400 font-black text-sm md:text-base animate-glow glow-red w-5 text-center leading-none">▼</span>`;
+      return `<span class="text-amber-400 font-black text-xs md:text-sm animate-glow glow-yellow w-5 text-center leading-none">■</span>`;
+    }
+
+    function buildPodiumCard(item, i, cat) {
+      const data = item || { rank: i+1, totalNilai: 0, noUrut: '-', namaSekolah: '-' };
+      const indicatorHtml = getTrendIndicatorHTML(cat, data, i);
+      
+      let glowClass = 'antislope-card';
+      let trophy = '';
+      if(i === 0) { glowClass += ' top1-glow'; trophy = '🏆'; }
+      if(i === 1) { glowClass += ' top2-glow'; trophy = '🥈'; }
+      if(i === 2) { glowClass += ' top3-glow'; trophy = '🥉'; }
+
+      // Rank menggunakan angka 1, 2, 3 (atau dari data jika ada)
+      const rankNum = data.rank || (i+1);
+
+      return `
+        <div class="relative ${glowClass} rounded-2xl p-3 flex flex-col justify-center shadow-lg h-[95px]">
+          <div class="flex items-center justify-between w-full h-full">
+            
+            <!-- Kolom Rank Kiri -->
+            <div class="flex items-center gap-1.5 w-[65px]">
+              <span class="text-2xl font-black text-white drop-shadow-md leading-none">${trophy} ${rankNum}</span>
+            </div>
+
+            <!-- Indikator Naik Turun (Tengah Kiri) -->
+            <div class="flex items-center justify-center w-6">
+              ${indicatorHtml}
+            </div>
+
+            <!-- Kolom No Tampil & Sekolah (Tengah) -->
+            <div class="flex-1 flex flex-col items-center justify-center border-x border-white/10 px-2 mx-1 h-full">
+              <span class="text-[10px] text-slate-400 uppercase tracking-widest leading-none mb-0.5">NO TAMPIL</span>
+              <span class="text-2xl font-black text-white leading-none">${data.noUrut}</span>
+              <span class="text-[9px] font-semibold text-slate-400 truncate w-full text-center mt-1 uppercase">${data.namaSekolah}</span>
+            </div>
+
+            <!-- Kolom Nilai Total (Kanan) -->
+            <div class="w-[75px] text-right flex flex-col items-end justify-center">
+              <span class="text-[10px] text-slate-400 uppercase tracking-widest leading-none mb-0.5">TOTAL</span>
+              <div class="text-2xl font-black text-blue-400 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)] leading-none">${data.totalNilai || '0'}</div>
+            </div>
+
+          </div>
+        </div>
+      `;
+    }
+
+    function buildListTable(items, cat, startIndex) {
+      if (items.length === 0) return '';
+      const rows = items.map((item, idx) => {
+        const actualIndex = startIndex + idx;
+        const indicatorHtml = getTrendIndicatorHTML(cat, item, actualIndex);
+        
+        return `
+          <div class="flex items-center justify-between antislope-card rounded-xl p-2.5 mb-2 hover:bg-white/5 transition-all group">
+            
+            <!-- RANK -->
+            <div class="flex items-center gap-2 w-14">
+              <span class="text-base font-black text-slate-400 w-6 text-center leading-none group-hover:text-white transition-colors">${item.rank || (actualIndex + 1)}</span>
+              ${indicatorHtml}
+            </div>
+            
+            <!-- NO TAMPIL -->
+            <div class="flex-1 flex flex-col items-center justify-center border-x border-white/10 px-2">
+               <span class="text-xl font-black text-white leading-none">${item.noUrut || '-'}</span>
+               <span class="text-[9px] font-bold text-slate-400 truncate w-full text-center mt-1 uppercase group-hover:text-blue-200 transition-colors">${item.namaSekolah || '-'}</span>
+            </div>
+            
+            <!-- TOTAL NILAI -->
+            <div class="text-lg font-black text-blue-400 w-[70px] text-right pr-2 leading-none group-hover:text-blue-300 transition-colors">${item.totalNilai || '0'}</div>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div class="flex flex-col h-full w-full">
+           <!-- Header Tabel -->
+           <div class="flex text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-2">
+              <div class="w-14">RANK</div>
+              <div class="flex-1 text-center">NO TAMPIL</div>
+              <div class="w-[70px] text-right pr-2">TOTAL</div>
+           </div>
+           
+           <!-- Isi Tabel (Scrollable) -->
+           <div class="overflow-y-auto flex-1 hide-scrollbar px-1">
+              ${rows}
+           </div>
+        </div>
+      `;
+    }
+
+    function renderCategory(cat) {
+      const container = document.getElementById(`card-${cat}`);
+      container.innerHTML = '';
+
+      const maxLimit = tabLimits[cat];
+      const items = (liveData[cat] || []).slice(0, maxLimit);
+      if (items.length === 0) return;
+
+      const top3 = items.slice(0, 3);
+      const remainingItems = items.slice(3);
+
+      // --- 1. RENDER PODIUM TOP 3 ---
+      const podiumWrapper = document.createElement('div');
+      podiumWrapper.className = "flex flex-col gap-2.5 mb-4 w-full"; // Dibuat stack ke bawah untuk podium agar lebih rapi di layout ini
+      podiumWrapper.innerHTML = `
+        ${buildPodiumCard(top3[0], 0, cat)}
+        <div class="grid grid-cols-2 gap-2.5">
+          ${buildPodiumCard(top3[1], 1, cat)}
+          ${buildPodiumCard(top3[2], 2, cat)}
+        </div>
+      `;
+      container.appendChild(podiumWrapper);
+
+      // --- 2. RENDER DAFTAR SISANYA (2 KOLOM) ---
+      if (remainingItems.length > 0) {
+        const tablesGrid = document.createElement('div');
+        tablesGrid.className = "grid grid-cols-2 gap-4 flex-1 overflow-hidden pt-2 border-t border-white/10";
+        
+        const mid = Math.ceil(remainingItems.length / 2);
+        const leftList = remainingItems.slice(0, mid);
+        const rightList = remainingItems.slice(mid);
+
+        tablesGrid.innerHTML = `
+          <div class="h-full overflow-hidden">${buildListTable(leftList, cat, 3)}</div>
+          <div class="h-full overflow-hidden">${buildListTable(rightList, cat, 3 + leftList.length)}</div>
+        `;
+        
+        container.appendChild(tablesGrid);
+      }
+    }
+
+    // Jam Realtime
+    function updateClocks() {
+      const now = new Date();
+      document.getElementById('live-realtime-clock').innerText = now.toLocaleTimeString('id-ID', { hour12: false });
+    }
+    setInterval(updateClocks, 1000);
+    updateClocks();
+
+    // Fetch Data dari API
+    async function fetchData() {
+      if(GAS_API_URL === "MASUKKAN_LINK_DEPLOY_BARU_DI_SINI") return; // Cegah error jika URL belum diganti
+      try {
+        const response = await fetch(GAS_API_URL);
+        const data = await response.json();
+        
+        liveData = data;
+
+        // Update indikator waktu sinkronisasi (Waktu dari panitia klik "Sync")
+        if(data.lastSync && data.lastSync !== lastDataSyncTime) {
+           lastDataSyncTime = data.lastSync;
+           const syncDate = new Date(data.lastSync);
+           document.getElementById('last-update-clock').innerText = `Last Sync: ${syncDate.toLocaleTimeString('id-ID', { hour12: false })} WIB`;
+        }
+
+        renderCategory('smp');
+        renderCategory('sma');
+      } catch (error) {
+        console.error("Gagal sinkronisasi data:", error);
+      }
+    }
+
+    // Polling setiap 5 detik ke Web App API
+    fetchData();
+    setInterval(fetchData, 5000);
+  </script>
 </body>
 </html>

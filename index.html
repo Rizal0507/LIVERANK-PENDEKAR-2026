@@ -109,7 +109,7 @@
     .text-gradient { background: linear-gradient(to right, #ffffff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .text-gradient-blue { background: linear-gradient(to right, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     
-    /* Layout HP & Scroll Area */
+    /* Layout HP & Scroll Area - PERBAIKAN SCROLL HP ADA DI SINI */
     .mobile-hidden { display: none !important; }
     
     @media (min-width: 1024px) {
@@ -117,8 +117,13 @@
     }
     
     @media (max-width: 1023px) {
+      /* Membuka kuncian tinggi layar dan overflow agar HP bisa scroll mulus */
+      body {
+         height: auto !important;
+         overflow-y: auto !important;
+      }
       .mobile-scroll { 
-         overflow-y: auto; 
+         overflow-y: visible !important; 
          overflow-x: hidden; 
          /* Memberi ruang kosong di bawah agar baris terakhir tidak tertutup tombol promo */
          padding-bottom: 80px !important; 
@@ -220,7 +225,6 @@
            
            <!-- KOLOM KANAN -->
            <div class="flex-1 flex flex-col min-h-0">
-              <!-- HEADER INI HANYA MUNCUL DI DESKTOP (lg:grid), HILANG DI HP (hidden) -->
               <div class="hidden lg:grid grid-cols-[100px_1fr_45px] lg:grid-cols-[115px_1fr_50px] items-center text-[9px] lg:text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1.5 shrink-0 bg-white/5 rounded py-1.5 gap-1">
                  <div class="text-left">RANK</div>
                  <div class="text-center">NO. TAMPIL</div>
@@ -259,7 +263,6 @@
            
            <!-- KOLOM KANAN -->
            <div class="flex-1 flex flex-col min-h-0">
-              <!-- HEADER INI HANYA MUNCUL DI DESKTOP (lg:grid), HILANG DI HP (hidden) -->
               <div class="hidden lg:grid grid-cols-[100px_1fr_45px] lg:grid-cols-[115px_1fr_50px] items-center text-[9px] lg:text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 shrink-0 bg-white/5 rounded py-1 gap-1">
                  <div class="text-left">RANK</div>
                  <div class="text-center">NO. TAMPIL</div>
@@ -278,14 +281,8 @@
   </button>
 
   <script>
-    // ==========================================
-    // 1. LINK DATA SPREADSHEET (GAS API)
-    // ==========================================
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzTSP4qFth4q0Ufjbag-uq_WFh2-jHvQ0RY9w4e8oemtdwlw_PPL99z3FZ7Aec1-C4h/exec";
 
-    // ==========================================
-    // 2. KONFIGURASI SPONSOR / ORGANIZER
-    // ==========================================
     const promoConfig = [
       {
         category: "ORGANIZED BY",
@@ -307,10 +304,6 @@
         ]
       }
     ];
-
-    // ==========================================
-    // LOGIKA TAB HP & PENANDA FAVORIT BINTANG
-    // ==========================================
     
     function switchTab(tab) {
        document.getElementById('col-smp').classList.toggle('mobile-hidden', tab !== 'smp');
@@ -346,9 +339,6 @@
        }
     }
 
-    // ==========================================
-    // LOGIKA RENDER CARD
-    // ==========================================
     let liveData = { smp: [], sma: [] };
     let previousFullSignature = { smp: "", sma: "" };
     let teamRankTracker = { smp: {}, sma: {} };

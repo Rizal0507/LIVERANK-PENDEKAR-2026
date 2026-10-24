@@ -79,7 +79,7 @@
       justify-content: center;
       padding: 0 6px;
       min-width: 26px;
-      height: 20px; /* Kunci tinggi kotak agar proporsional */
+      height: 20px;
     }
 
     /* Gradasi Teks */
@@ -93,7 +93,7 @@
 
   <div id="screen-flash" class="flash-overlay"></div>
 
-  <!-- OVERLAY SPONSOR MANUAL / AUTO 15 MNT -->
+  <!-- OVERLAY SPONSOR -->
   <div id="sponsor-overlay" class="fixed inset-0 z-[100] bg-brand-900/95 backdrop-blur-xl flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-700">
     <h2 class="text-sm font-black text-slate-500 tracking-[0.3em] uppercase mb-12">OUR PROUD SPONSORS</h2>
     <div id="sponsor-content" class="flex flex-col items-center text-center transition-opacity duration-500" style="opacity: 0;">
@@ -145,20 +145,19 @@
          
          <!-- KOLOM KIRI (7 Baris) -->
          <div class="flex-1 flex flex-col min-h-0">
-            <div class="flex items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1.5 shrink-0 bg-white/5 rounded py-1">
-               <div class="w-[95px] shrink-0">RANK</div>
-               <div class="flex-1 text-center pr-3">NO. TAMPIL</div>
+            <div class="flex items-center justify-between text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1.5 shrink-0 bg-white/5 rounded py-1">
+               <div class="w-[95px] shrink-0 text-left">RANK</div>
+               <div class="w-[50px] shrink-0 text-center">NO. TAMPIL</div>
                <div class="w-[35px] shrink-0 text-right">TOTAL</div>
             </div>
-            <!-- Gunakan flex-col biasa dengan gap, HAPUS justify-between & flex-1 di children -->
             <div id="list-smp-col1" class="w-full flex flex-col gap-[3px] relative"></div>
          </div>
 
          <!-- KOLOM KANAN (6 Baris) -->
          <div class="flex-1 flex flex-col min-h-0">
-            <div class="flex items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1.5 shrink-0 bg-white/5 rounded py-1">
-               <div class="w-[95px] shrink-0">RANK</div>
-               <div class="flex-1 text-center pr-3">NO. TAMPIL</div>
+            <div class="flex items-center justify-between text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1.5 shrink-0 bg-white/5 rounded py-1">
+               <div class="w-[95px] shrink-0 text-left">RANK</div>
+               <div class="w-[50px] shrink-0 text-center">NO. TAMPIL</div>
                <div class="w-[35px] shrink-0 text-right">TOTAL</div>
             </div>
             <div id="list-smp-col2" class="w-full flex flex-col gap-[3px] relative"></div>
@@ -179,20 +178,19 @@
          
          <!-- KOLOM KIRI (15 Baris) -->
          <div class="flex-1 flex flex-col min-h-0">
-            <div class="flex items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 bg-white/5 rounded py-0.5">
-               <div class="w-[95px] shrink-0">RANK</div>
-               <div class="flex-1 text-center pr-3">NO. TAMPIL</div>
+            <div class="flex items-center justify-between text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 bg-white/5 rounded py-0.5">
+               <div class="w-[95px] shrink-0 text-left">RANK</div>
+               <div class="w-[50px] shrink-0 text-center">NO. TAMPIL</div>
                <div class="w-[35px] shrink-0 text-right">TOTAL</div>
             </div>
-            <!-- HAPUS justify-between, gunakan gap konstan agar card tidak meregang besar -->
             <div id="list-sma-col1" class="w-full flex flex-col gap-[3px] relative"></div>
          </div>
 
          <!-- KOLOM KANAN (15 Baris) -->
          <div class="flex-1 flex flex-col min-h-0">
-            <div class="flex items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 bg-white/5 rounded py-0.5">
-               <div class="w-[95px] shrink-0">RANK</div>
-               <div class="flex-1 text-center pr-3">NO. TAMPIL</div>
+            <div class="flex items-center justify-between text-[9px] font-bold text-slate-500 uppercase tracking-widest px-2 mb-1 shrink-0 bg-white/5 rounded py-0.5">
+               <div class="w-[95px] shrink-0 text-left">RANK</div>
+               <div class="w-[50px] shrink-0 text-center">NO. TAMPIL</div>
                <div class="w-[35px] shrink-0 text-right">TOTAL</div>
             </div>
             <div id="list-sma-col2" class="w-full flex flex-col gap-[3px] relative"></div>
@@ -304,16 +302,16 @@
         `;
       }
 
-      // Card List Biasa - Tinggi dikunci h-[30px] agar tidak meregang
+      // Card List Biasa 
       return `
         <div class="rank-card px-2 flex items-center w-full h-[30px] justify-between list-item shrink-0" data-id="${data.noUrut || actualIndex}">
-          <!-- KIRI: RANK UTUH (w-[95px]) -->
-          <div class="w-[95px] shrink-0 flex items-center">
+          <!-- KIRI: RANK UTUH -->
+          <div class="w-[95px] shrink-0 flex items-center text-left">
             <span class="text-[9px] font-bold text-white uppercase rank-text leading-none">${rankStr}</span>
           </div>
           
           <!-- TENGAH: NO TAMPIL & INDIKATOR -->
-          <div class="flex-1 flex justify-center items-center gap-1.5 pr-2">
+          <div class="w-[50px] shrink-0 flex justify-center items-center gap-1.5 relative left-[-8px]">
              <div class="no-box">
                 <span class="text-[10px] font-bold text-white leading-none">${displayNo}</span>
              </div>
@@ -323,7 +321,7 @@
           </div>
           
           <!-- KANAN: TOTAL NILAI -->
-          <div class="w-[35px] shrink-0 flex items-center justify-end pr-0.5">
+          <div class="w-[35px] shrink-0 flex items-center justify-end">
             <span class="text-[11px] font-black text-[#60a5fa] leading-none">${data.totalNilai || '0'}</span>
           </div>
         </div>
@@ -358,12 +356,14 @@
       if (items.length === 0) return;
 
       const top3 = items.slice(0, 3);
-      const remainingItems = items.slice(3);
+      const remainingItems = items.slice(3); // Rank 4 dst
 
+      // Podium Top 3 
       let podiumHtml = '';
       for(let i=0; i<3; i++) podiumHtml += buildCard(top3[i], 'smp', i, true);
       document.getElementById('podium-smp').innerHTML = podiumHtml;
 
+      // Sisanya dibagi 2 kolom
       const col1Items = remainingItems.slice(0, 7);
       const col2Items = remainingItems.slice(7, 13);
 
@@ -379,12 +379,14 @@
       if (items.length === 0) return;
 
       const top3 = items.slice(0, 3);
-      const remainingItems = items.slice(3);
+      const remainingItems = items.slice(3); // Rank 4 dst
 
+      // Podium Top 3
       let podiumHtml = '';
       for(let i=0; i<3; i++) podiumHtml += buildCard(top3[i], 'sma', i, true);
       document.getElementById('podium-sma').innerHTML = podiumHtml;
 
+      // Sisanya dibagi 2 kolom
       const col1Items = remainingItems.slice(0, 15);
       const col2Items = remainingItems.slice(15, 30);
 

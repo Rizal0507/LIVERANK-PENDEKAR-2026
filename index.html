@@ -109,7 +109,7 @@
     .text-gradient { background: linear-gradient(to right, #ffffff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .text-gradient-blue { background: linear-gradient(to right, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     
-    /* Layout HP & Scroll Area yang Diperbaiki (Anti Bertumpuk) */
+    /* Layout HP & Scroll Area */
     .mobile-hidden { display: none !important; }
     
     @media (min-width: 1024px) {
@@ -145,7 +145,7 @@
     <button onclick="hidePromo()" class="absolute top-6 right-6 md:top-8 md:right-8 text-white/30 hover:text-white/80 text-3xl transition-colors"><i class="fa-solid fa-xmark"></i></button>
   </div>
 
-  <!-- HEADER DESKTOP (Logo Rekap Andalan Diperbesar) -->
+  <!-- HEADER DESKTOP -->
   <header class="hidden lg:flex items-center justify-between mb-4 bg-brand-800/50 border border-white/5 rounded-2xl p-3 shadow-lg shrink-0 h-[80px]">
     <div class="flex items-center gap-4 h-full">
       <img src="logo-pendekar.png" alt="Logo Pendekar" class="h-12 object-contain">
@@ -165,19 +165,17 @@
     </div>
     <div class="flex items-center gap-5 h-full text-right">
       <div class="text-2xl font-black text-white tracking-wider desktop-realtime-clock">00:00:00</div>
-      <!-- Diperbesar ke h-16 (bisa sampai h-20 jika butuh lebih dominan) -->
       <img src="https://lh3.googleusercontent.com/d/1UHSI3CLB0YCZ7uQ3O0sVIGMrVeK7qrK0=s1000" alt="Rekap Andalan" class="h-16 lg:h-20 object-contain">
     </div>
   </header>
 
-  <!-- HEADER MOBILE (Logo Rekap Andalan Diperbesar) -->
+  <!-- HEADER MOBILE -->
   <header class="flex lg:hidden flex-col mb-3 bg-brand-800/50 border border-white/5 rounded-2xl p-3 shadow-lg shrink-0 w-full">
     <div class="flex justify-between items-center w-full mb-3">
        <img src="logo-pendekar.png" alt="Logo Pendekar" class="h-12 object-contain">
        <div class="text-center flex-1 px-2">
          <h1 class="text-base sm:text-lg font-black tracking-tight text-gradient leading-none">LKBB PENDEKAR <span class="text-gradient-blue">2026</span></h1>
        </div>
-       <!-- Diperbesar ke h-12 untuk mobile agar sangat terbaca -->
        <img src="https://lh3.googleusercontent.com/d/1UHSI3CLB0YCZ7uQ3O0sVIGMrVeK7qrK0=s1000" alt="Rekap Andalan" class="h-12 sm:h-14 object-contain">
     </div>
     
@@ -216,7 +214,6 @@
         <div class="flex-1 flex flex-col lg:flex-row h-auto lg:min-h-0 gap-1 lg:gap-3 border-t border-white/5 pt-2">
            
            <!-- KOLOM KIRI (7 Baris) -->
-           <!-- Perbaikan Utama: w-full pada HP, h-auto pada HP agar tidak memaksa 50% ruang -->
            <div class="w-full lg:flex-1 flex flex-col h-auto lg:min-h-0">
               <div class="grid grid-cols-[100px_1fr_45px] lg:grid-cols-[115px_1fr_50px] items-center text-[9px] lg:text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1.5 shrink-0 bg-white/5 rounded py-1.5 gap-1">
                  <div class="text-left">RANK</div>
@@ -257,7 +254,6 @@
         <div class="flex-1 flex flex-col lg:flex-row h-auto lg:min-h-0 gap-1 lg:gap-3 border-t border-white/5 pt-2">
            
            <!-- KOLOM KIRI (15 Card) -->
-           <!-- Perbaikan Utama: w-full pada HP, h-auto pada HP agar tidak memaksa 50% ruang -->
            <div class="w-full lg:flex-1 flex flex-col h-auto lg:min-h-0">
               <div class="grid grid-cols-[100px_1fr_45px] lg:grid-cols-[115px_1fr_50px] items-center text-[9px] lg:text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 shrink-0 bg-white/5 rounded py-1 gap-1">
                  <div class="text-left">RANK</div>
@@ -289,19 +285,20 @@
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzTSP4qFth4q0Ufjbag-uq_WFh2-jHvQ0RY9w4e8oemtdwlw_PPL99z3FZ7Aec1-C4h/exec";
 
+    // PERBAIKAN: Penambahan Tanda Koma (,) di setiap akhir baris objek
     const promoConfig = [
       {
         category: "ORGANIZED BY",
         items: [
-          { logo: "logo-amp.png", nama: "Antasena Muda Production", deskripsi: "Penyelenggara Utama Event LKBB Pendekar" }
-          { logo: "logo-bhanarika.png", nama: "BHANARIKA", deskripsi: "Penyelenggara Utama Event LKBB Pendekar" }
+          { logo: "logo-amp.png", nama: "Antasena Muda Production", deskripsi: "Penyelenggara Utama Event LKBB Pendekar" },
+          { logo: "logo-bhanarika.png", nama: "BHANARIKA", deskripsi: "Penyelenggara Utama Event LKBB Pendekar" },
           { logo: "logo-ppi.jpeg", nama: "Purna Paskibraka Indonesia Kota Madiun", deskripsi: " " }
         ]
       },
       {
         category: "SUPPORTED BY",
         items: [
-          { logo: "https://lh3.googleusercontent.com/d/1UHSI3CLB0YCZ7uQ3O0sVIGMrVeK7qrK0=s1000", nama: "REKAP ANDALAN", deskripsi: "Platform Live Ranking System Event Kreatif" }
+          { logo: "https://lh3.googleusercontent.com/d/1UHSI3CLB0YCZ7uQ3O0sVIGMrVeK7qrK0=s1000", nama: "REKAP ANDALAN", deskripsi: "Platform Live Ranking System Event Kreatif" },
           { logo: "logo-madiun.png", nama: "Madiun", deskripsi: " " }
         ]
       },
@@ -417,7 +414,6 @@
         `;
       }
 
-      // Ketinggian dikunci di 32px untuk HP agar sangat proporsional tanpa terlihat memanjang/terpotong
       return `
         <div class="rank-card hover-sorot px-3 grid grid-cols-[100px_1fr_45px] lg:grid-cols-[115px_1fr_50px] gap-1 items-center w-full h-[32px] lg:h-auto lg:flex-1 lg:min-h-[28px] lg:max-h-[45px] anim-item shrink-0" data-id="${data.noUrut || actualIndex}">
           <div class="flex items-center text-left">
